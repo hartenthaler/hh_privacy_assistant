@@ -1,0 +1,101 @@
+<?php
+
+declare(strict_types=1);
+
+use Fisharebest\Webtrees\I18N;
+
+/**
+ * @var string $title
+ * @var string $description
+ * @var int $retentionYears
+ * @var string $lastScan
+ * @var int $lastExpiredCount
+ * @var int $lastRetentionYears
+ * @var list<array{id:int,userName:string,realName:string,email:string,registered:string,lastActivity:string,inactiveDays:int,isAdmin:bool}> $expiredAccounts
+ * @var string $legalNoticeConfigLink
+ */
+?>
+
+<h1><?= e($title) ?></h1>
+<p><?= e($description) ?></p>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h2 class="h4"><?= I18N::translate('Inactive user accounts') ?></h2>
+
+        <?php if ($retentionYears === 0) : ?>
+            <p>
+                <?= I18N::translate('No retention period for inactive user accounts is currently configured. The assistant therefore does not report accounts as overdue.') ?>
+            </p>
+        <?php else : ?>
+            <p>
+                <?= I18N::plural('The privacy policy currently states that inactive user accounts are deleted after %s year.', 'The privacy policy currently states that inactive user accounts are deleted after %s years.', $retentionYears, I18N::number($retentionYears)) ?>
+            </p>
+            <p>
+                <?= I18N::plural('%s user account has reached or exceeded this retention period.', '%s user accounts have reached or exceeded this retention period.', count($expiredAccounts), I18N::number(count($expiredAccounts))) ?>
+            </p>
+        <?php endif ?>
+
+        <dl class="row mb-0">
+            <dt class="col-sm-3"><?= I18N::translate('Retention setting') ?></dt>
+            <dd class="col-sm-9">
+                <?php if ($retentionYears === 0) : ?>
+                    <?= I18N::translate('never') ?>
+                <?php else : ?>
+                    <?= I18N::plural('%s year', '%s years', $retentionYears, I18N::number($retentionYears)) ?>
+                <?php endif ?>
+                <a class="ms-2" href="<?= e($legalNoticeConfigLink) ?>"><?= I18N::translate('Change in legal notice module') ?></a>
+            </dd>
+
+            <dt class="col-sm-3"><?= I18N::translate('Last scan') ?></dt>
+            <dd class="col-sm-9"><?= $lastScan === '' ? I18N::translate('not yet') : e($lastScan) ?></dd>
+
+            <dt class="col-sm-3"><?= I18N::translate('Last scan result') ?></dt>
+            <dd class="col-sm-9">
+                <?= I18N::plural('%s overdue account', '%s overdue accounts', $lastExpiredCount, I18N::number($lastExpiredCount)) ?>
+                <?php if ($lastRetentionYears !== $retentionYears) : ?>
+                    <span class="text-muted">
+                        <?= I18N::translate('The retention setting has changed since the last scan.') ?>
+                    </span>
+                <?php endif ?>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<?php if ($expiredAccounts !== []) : ?>
+    <table class="table table-bordered table-sm wt-table-menu">
+        <thead>
+            <tr>
+                <th><?= I18N::translate('User name') ?></th>
+                <th><?= I18N::translate('Real name') ?></th>
+                <th><?= I18N::translate('E-mail') ?></th>
+                <th><?= I18N::translate('Registered') ?></th>
+                <th><?= I18N::translate('Last login') ?></th>
+                <th class="text-end"><?= I18N::translate('Inactive days') ?></th>
+                <th><?= I18N::translate('Notes') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($expiredAccounts as $account) : ?>
+                <tr>
+                    <td><?= e($account['userName']) ?></td>
+                    <td><?= e($account['realName']) ?></td>
+                    <td><?= e($account['email']) ?></td>
+                    <td><?= e($account['registered']) ?></td>
+                    <td><?= e($account['lastActivity']) ?></td>
+                    <td class="text-end"><?= I18N::number($account['inactiveDays']) ?></td>
+                    <td>
+                        <?php if ($account['isAdmin']) : ?>
+                            <span class="badge bg-warning text-dark"><?= I18N::translate('administrator') ?></span>
+                        <?php endif ?>
+                    </td>
+                </tr>
+            <?php endforeach ?>
+        </tbody>
+    </table>
+<?php endif ?>
+
+<p class="small text-muted">
+    <?= I18N::translate('This first version monitors the configured retention period and reports overdue accounts. It does not delete accounts automatically.') ?>
+</p>
