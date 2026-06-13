@@ -40,7 +40,9 @@ use function preg_match;
 use function preg_replace;
 use function route;
 use function strip_tags;
+use function strrpos;
 use function strtok;
+use function substr;
 use function time;
 use function usort;
 
@@ -458,8 +460,10 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
 
     private function sensitivePatternLabel(object $fact): string
     {
+        $tag = $this->factTag($fact);
+
         foreach (self::SENSITIVE_PATTERNS as $pattern) {
-            if (!in_array($fact->tag(), $pattern['tags'], true)) {
+            if (!in_array($tag, $pattern['tags'], true)) {
                 continue;
             }
 
@@ -475,6 +479,14 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
         }
 
         return '';
+    }
+
+    private function factTag(object $fact): string
+    {
+        $tag = $fact->tag();
+        $position = strrpos($tag, ':');
+
+        return $position === false ? $tag : substr($tag, $position + 1);
     }
 
     private function deadLongerThan(Individual $individual, int $years): bool
