@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Fisharebest\Webtrees\I18N;
+use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
 
 /**
  * @var string $title
@@ -68,12 +69,12 @@ use Fisharebest\Webtrees\I18N;
         <thead>
             <tr>
                 <th><?= I18N::translate('User name') ?></th>
-                <th><?= I18N::translate('Real name') ?></th>
+                <th><?= MoreI18N::xlate('Real name') ?></th>
                 <th><?= I18N::translate('E-mail') ?></th>
                 <th><?= I18N::translate('Registered') ?></th>
                 <th><?= I18N::translate('Last login') ?></th>
                 <th class="text-end"><?= I18N::translate('Inactive days') ?></th>
-                <th><?= I18N::translate('Notes') ?></th>
+                <th><?= MoreI18N::xlate('Notes') ?></th>
             </tr>
         </thead>
         <tbody>

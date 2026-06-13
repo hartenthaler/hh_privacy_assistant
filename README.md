@@ -23,6 +23,12 @@ The module should be used together with `hh_legal_notice`, because the retention
 
 Current version: `0.1.0`
 
+## Translation
+
+The module currently includes a German translation file.
+
+Some labels that already exist in webtrees core translations are reused from webtrees instead of being translated again in this module.
+
 ## License
 
 GPL-3.0-or-later

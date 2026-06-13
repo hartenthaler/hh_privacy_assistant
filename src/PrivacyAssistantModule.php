@@ -24,7 +24,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 
 use function date;
+use function file_exists;
 use function floor;
+use function is_array;
 use function max;
 use function route;
 use function time;
@@ -82,6 +84,19 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
     public function customModuleSupportUrl(): string
     {
         return self::SUPPORT_URL;
+    }
+
+    public function customTranslations(string $language): array
+    {
+        $file = $this->resourcesFolder() . 'lang' . DIRECTORY_SEPARATOR . $language . '.php';
+
+        if (file_exists($file)) {
+            $translations = include $file;
+
+            return is_array($translations) ? $translations : [];
+        }
+
+        return [];
     }
 
     public function resourcesFolder(): string
