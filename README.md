@@ -44,7 +44,9 @@ Current version: `2.2.6.0`
 
 ## Translation
 
-The module currently includes a German translation file.
+The module currently includes German and Dutch translation files.
+
+Thanks to TheDutchJewel for the Dutch translation.
 
 Some labels that already exist in webtrees core translations are reused from webtrees instead of being translated again in this module.
 
