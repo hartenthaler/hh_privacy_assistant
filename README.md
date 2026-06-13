@@ -13,6 +13,25 @@ The first version focuses on inactive user accounts:
 
 The module does **not** delete accounts automatically. It is currently a monitoring and decision-support tool.
 
+It also contains a first implementation for sensitive genealogical information:
+
+- Administrators can select a tree and a release period after death.
+- The assistant scans facts that may contain sensitive information:
+  - ethnic origin (`FACT` with `TYPE Ethnic Origin`)
+  - physical description (`DSCR`)
+  - political party membership (`FACT` with `TYPE Political Party Membership`)
+  - political affiliation (`EVEN` or `FACT` with `TYPE Political Affiliation`)
+  - religious affiliation (`RELI`)
+  - religious events (`EVEN` with `TYPE Religious Event`)
+  - baptism and church ceremonies (`BAPM`, `CHR`, `CONF`)
+  - trade union membership (`FACT` with `TYPE Trade Union Membership`)
+  - DNA information (`FACT` with `TYPE Y-DNA Haplogroup` or `TYPE mtDNA Haplogroup`, `EVEN` with `TYPE DNA Test`)
+  - cause of death (`DEAT` with `CAUS`)
+- For people who are not known to have been dead for the configured number of years, `2 RESN CONFIDENTIAL` is added to matching facts when missing.
+- For people who are known to have been dead for the configured number of years, an existing `2 RESN CONFIDENTIAL` on matching facts is removed.
+- The action can be previewed before changes are applied.
+- For causes of death, GEDCOM allows the restriction only on the `DEAT` fact, not on the `CAUS` substructure alone.
+
 ## Installation
 
 Copy the folder `hh_privacy_assistant` into `webtrees/modules_v4` and enable the module in the webtrees control panel.
@@ -21,7 +40,7 @@ The module should be used together with `hh_legal_notice`, because the retention
 
 ## Version
 
-Current version: `0.1.0`
+Current version: `2.2.6.0`
 
 ## Translation
 

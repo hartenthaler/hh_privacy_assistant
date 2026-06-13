@@ -14,6 +14,12 @@ use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
  * @var int $lastRetentionYears
  * @var list<array{id:int,userName:string,realName:string,email:string,registered:string,lastActivity:string,inactiveDays:int,isAdmin:bool}> $expiredAccounts
  * @var string $legalNoticeConfigLink
+ * @var array<string,string> $treeOptions
+ * @var string $selectedProtectionTree
+ * @var int $releaseYears
+ * @var list<array{xref:string,name:string,url:string,lifespan:string,pattern:string,fact:string,deathStatus:string,action:string,changed:bool}> $protectionResult
+ * @var bool $protectionApplied
+ * @var bool $protectionSubmitted
  */
 ?>
 
@@ -97,6 +103,97 @@ use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
     </table>
 <?php endif ?>
 
+<div class="card mb-3">
+    <div class="card-body">
+        <h2 class="h4"><?= I18N::translate('Sensitive information') ?></h2>
+
+        <p>
+            <?= I18N::translate('Sensitive facts can be protected with RESN CONFIDENTIAL until the person has been dead for the configured number of years.') ?>
+        </p>
+
+        <form method="post" class="row gy-3">
+            <?= csrf_field() ?>
+
+            <div class="col-md-5">
+                <label class="form-label" for="protectionTree"><?= I18N::translate('Family tree') ?></label>
+                <?= view('components/select', [
+                    'id' => 'protectionTree',
+                    'name' => 'protectionTree',
+                    'options' => $treeOptions,
+                    'selected' => $selectedProtectionTree,
+                ]) ?>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label" for="releaseYears"><?= I18N::translate('Release after death') ?></label>
+                <input class="form-control" id="releaseYears" name="releaseYears" type="number" min="0" max="150" value="<?= e((string) $releaseYears) ?>">
+            </div>
+
+            <div class="col-md-4 d-flex align-items-end gap-2">
+                <button class="btn btn-secondary" type="submit" name="task" value="preview">
+                    <?= I18N::translate('Preview') ?>
+                </button>
+                <button class="btn btn-primary" type="submit" name="task" value="apply">
+                    <?= I18N::translate('Apply changes') ?>
+                </button>
+            </div>
+        </form>
+
+        <?php if ($protectionSubmitted && $protectionResult === []) : ?>
+            <p class="mt-4 mb-0">
+                <?= I18N::translate('No matching sensitive facts were found in the selected tree.') ?>
+            </p>
+        <?php elseif ($protectionResult !== []) : ?>
+            <h3 class="h5 mt-4">
+                <?php if ($protectionApplied) : ?>
+                    <?= I18N::translate('Applied changes') ?>
+                <?php else : ?>
+                    <?= I18N::translate('Preview result') ?>
+                <?php endif ?>
+            </h3>
+
+            <table class="table table-bordered table-sm wt-table-sensitive-information datatables d-none"
+                <?= view('lists/datatables-attributes') ?>
+                data-sorting="<?= e('[[ 4, "asc" ]]') ?>"
+            >
+                <thead>
+                    <tr>
+                        <th><?= I18N::translate('Individual') ?></th>
+                        <th><?= I18N::translate('Pattern') ?></th>
+                        <th><?= I18N::translate('Fact') ?></th>
+                        <th><?= I18N::translate('Death status') ?></th>
+                        <th><?= I18N::translate('Action') ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($protectionResult as $row) : ?>
+                        <tr>
+                            <td data-sort="<?= e(strip_tags($row['name'])) ?>">
+                                <a href="<?= e($row['url']) ?>"><?= $row['name'] ?></a>
+                                <?php if ($row['lifespan'] !== '') : ?>
+                                    <span class="text-muted"><?= e($row['lifespan']) ?></span>
+                                <?php endif ?>
+                            </td>
+                            <td data-sort="<?= e($row['pattern']) ?>"><?= e($row['pattern']) ?></td>
+                            <td><code><?= e($row['fact']) ?></code></td>
+                            <td><?= e($row['deathStatus']) ?></td>
+                            <td data-sort="<?= e($row['action']) ?>">
+                                <?php if ($row['action'] === 'add') : ?>
+                                    <?= $protectionApplied ? I18N::translate('RESN CONFIDENTIAL added') : I18N::translate('RESN CONFIDENTIAL would be added') ?>
+                                <?php elseif ($row['action'] === 'remove') : ?>
+                                    <?= $protectionApplied ? I18N::translate('RESN CONFIDENTIAL removed') : I18N::translate('RESN CONFIDENTIAL would be removed') ?>
+                                <?php else : ?>
+                                    <?= I18N::translate('unchanged') ?>
+                                <?php endif ?>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+        <?php endif ?>
+    </div>
+</div>
+
 <p class="small text-muted">
-    <?= I18N::translate('This first version monitors the configured retention period and reports overdue accounts. It does not delete accounts automatically.') ?>
+    <?= I18N::translate('This first version monitors the configured retention period and reports overdue accounts. It does not delete accounts automatically. The sensitive-information prototype changes GEDCOM facts only after confirmation.') ?>
 </p>

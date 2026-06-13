@@ -1,0 +1,202 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Privacy and Security Assistant for webtrees 2.2.6.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-13 00:00+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Hermann Hartenthaler <hermann@hartenthaler.de>\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.9\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: translate;noop;plural:1,2;translateContext:2,1c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: .git\n"
+
+msgid "Privacy and Security Assistant"
+msgstr "Datenschutz- und Sicherheitsassistent"
+
+msgid "Monitors privacy and security tasks for this webtrees site."
+msgstr "Überwacht Datenschutz- und Sicherheitsaufgaben für diese webtrees-Website."
+
+msgid "Inactive user accounts"
+msgstr "Inaktive Benutzerkonten"
+
+msgid "No retention period for inactive user accounts is currently configured. The assistant therefore does not report accounts as overdue."
+msgstr "Derzeit ist keine Aufbewahrungsfrist für inaktive Benutzerkonten konfiguriert. Der Assistent meldet daher keine Konten als überfällig."
+
+#, php-format
+msgid "The privacy policy currently states that inactive user accounts are deleted after %s year."
+msgid_plural "The privacy policy currently states that inactive user accounts are deleted after %s years."
+msgstr[0] "In der Datenschutzerklärung ist derzeit angegeben, dass inaktive Benutzerkonten nach %s Jahr gelöscht werden."
+msgstr[1] "In der Datenschutzerklärung ist derzeit angegeben, dass inaktive Benutzerkonten nach %s Jahren gelöscht werden."
+
+#, php-format
+msgid "%s user account has reached or exceeded this retention period."
+msgid_plural "%s user accounts have reached or exceeded this retention period."
+msgstr[0] "%s Benutzerkonto hat diese Aufbewahrungsfrist erreicht oder überschritten."
+msgstr[1] "%s Benutzerkonten haben diese Aufbewahrungsfrist erreicht oder überschritten."
+
+msgid "Retention setting"
+msgstr "Aufbewahrungseinstellung"
+
+msgid "never"
+msgstr "nie"
+
+#, php-format
+msgid "%s year"
+msgid_plural "%s years"
+msgstr[0] "%s Jahr"
+msgstr[1] "%s Jahre"
+
+msgid "Change in legal notice module"
+msgstr "Im Impressumsmodul ändern"
+
+msgid "Last scan"
+msgstr "Letzte Prüfung"
+
+msgid "not yet"
+msgstr "noch nicht"
+
+msgid "Last scan result"
+msgstr "Ergebnis der letzten Prüfung"
+
+#, php-format
+msgid "%s overdue account"
+msgid_plural "%s overdue accounts"
+msgstr[0] "%s überfälliges Konto"
+msgstr[1] "%s überfällige Konten"
+
+msgid "The retention setting has changed since the last scan."
+msgstr "Die Aufbewahrungseinstellung wurde seit der letzten Prüfung geändert."
+
+msgid "User name"
+msgstr "Benutzername"
+
+msgid "E-mail"
+msgstr "E-Mail"
+
+msgid "Registered"
+msgstr "Registriert"
+
+msgid "Last login"
+msgstr "Letzte Anmeldung"
+
+msgid "Inactive days"
+msgstr "Inaktive Tage"
+
+msgid "administrator"
+msgstr "Administrator"
+
+msgid "Sensitive information"
+msgstr "Besonders schutzwürdige Informationen"
+
+msgid "Sensitive facts can be protected with RESN CONFIDENTIAL until the person has been dead for the configured number of years."
+msgstr "Besonders sensible Fakten können mit RESN CONFIDENTIAL geschützt werden, bis die Person seit der konfigurierten Anzahl von Jahren verstorben ist."
+
+msgid "Family tree"
+msgstr "Stammbaum"
+
+msgid "Release after death"
+msgstr "Freigabe nach Tod"
+
+msgid "Preview"
+msgstr "Vorschau"
+
+msgid "Apply changes"
+msgstr "Änderungen anwenden"
+
+msgid "Applied changes"
+msgstr "Angewendete Änderungen"
+
+msgid "Preview result"
+msgstr "Vorschauergebnis"
+
+msgid "Individual"
+msgstr "Person"
+
+msgid "Pattern"
+msgstr "Muster"
+
+msgid "Fact"
+msgstr "Fakt"
+
+msgid "Death status"
+msgstr "Todesstatus"
+
+msgid "Action"
+msgstr "Aktion"
+
+msgid "RESN CONFIDENTIAL added"
+msgstr "RESN CONFIDENTIAL hinzugefügt"
+
+msgid "RESN CONFIDENTIAL would be added"
+msgstr "RESN CONFIDENTIAL würde hinzugefügt"
+
+msgid "RESN CONFIDENTIAL removed"
+msgstr "RESN CONFIDENTIAL entfernt"
+
+msgid "RESN CONFIDENTIAL would be removed"
+msgstr "RESN CONFIDENTIAL würde entfernt"
+
+msgid "unchanged"
+msgstr "unverändert"
+
+msgid "No matching sensitive facts were found in the selected tree."
+msgstr "Im ausgewählten Stammbaum wurden keine passenden besonders sensiblen Fakten gefunden."
+
+msgid "Ethnic origin"
+msgstr "Ethnische Herkunft"
+
+msgid "Physical description"
+msgstr "Körperliche Beschreibung"
+
+msgid "Political party membership"
+msgstr "Mitgliedschaft in einer politischen Partei"
+
+msgid "Political affiliation"
+msgstr "Politische Zugehörigkeit"
+
+msgid "Religious affiliation"
+msgstr "Religionszugehörigkeit"
+
+msgid "Religious event"
+msgstr "Religiöses Ereignis"
+
+msgid "Baptism or church ceremony"
+msgstr "Taufe oder kirchliche Zeremonie"
+
+msgid "Trade union membership"
+msgstr "Gewerkschaftsmitgliedschaft"
+
+msgid "Y-DNA haplogroup"
+msgstr "Y-DNA-Haplogruppe"
+
+msgid "mtDNA haplogroup"
+msgstr "mtDNA-Haplogruppe"
+
+msgid "DNA test"
+msgstr "DNA-Test"
+
+msgid "Cause of death"
+msgstr "Todesursache"
+
+#, php-format
+msgid "dead for at least %s year"
+msgid_plural "dead for at least %s years"
+msgstr[0] "seit mindestens %s Jahr verstorben"
+msgstr[1] "seit mindestens %s Jahren verstorben"
+
+#, php-format
+msgid "not known to be dead for at least %s year"
+msgid_plural "not known to be dead for at least %s years"
+msgstr[0] "nicht nachweislich seit mindestens %s Jahr verstorben"
+msgstr[1] "nicht nachweislich seit mindestens %s Jahren verstorben"
+
+msgid "This first version monitors the configured retention period and reports overdue accounts. It does not delete accounts automatically. The sensitive-information prototype changes GEDCOM facts only after confirmation."
+msgstr "Diese erste Version überwacht die konfigurierte Aufbewahrungsfrist und meldet überfällige Konten. Sie löscht keine Konten automatisch. Der Prototyp für besonders schutzwürdige Informationen ändert GEDCOM-Fakten nur nach Bestätigung."
