@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Fisharebest\Webtrees\Http\RequestHandlers\ControlPanel;
+use Fisharebest\Webtrees\Http\RequestHandlers\ModulesAllPage;
 use Fisharebest\Webtrees\I18N;
 use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
 
@@ -40,6 +42,12 @@ $inactive_badge = $inactive_warning ? 'bg-warning text-dark' : 'bg-success';
 $registration_badge = $registration_warning ? 'bg-warning text-dark' : 'bg-success';
 $sensitive_badge = $sensitive_warning ? 'bg-warning text-dark' : 'bg-success';
 ?>
+
+<?= view('components/breadcrumbs', ['links' => [
+    route(ControlPanel::class) => I18N::translate('Control panel'),
+    route(ModulesAllPage::class) => I18N::translate('Modules'),
+    $title,
+]]) ?>
 
 <h1><?= e($title) ?></h1>
 <p><?= e($description) ?></p>
