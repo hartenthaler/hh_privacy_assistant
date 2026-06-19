@@ -56,7 +56,7 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
     use ModuleGlobalTrait;
 
     private const MODULE_TITLE = 'Privacy and Security Assistant';
-    private const VERSION = '2.2.6.0';
+    private const VERSION = '2.2.6.1';
     private const LATEST_VERSION_URL = 'https://raw.githubusercontent.com/hartenthaler/hh_privacy_assistant/main/latest-version.txt';
     private const SUPPORT_URL = 'https://github.com/hartenthaler/hh_privacy_assistant';
 

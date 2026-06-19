@@ -8,7 +8,7 @@
 
 This [webtrees](https://www.webtrees.net) module helps administrators monitor privacy and security tasks on a webtrees site.
 
-Current module version: **2.2.6.0**.
+Current module version: **2.2.6.1**.
 
 > [!IMPORTANT]
 > This module does not provide legal advice.
