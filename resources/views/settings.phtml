@@ -15,6 +15,7 @@ use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
  * @var list<array{id:int,userName:string,realName:string,email:string,registered:string,lastActivity:string,inactiveDays:int,isAdmin:bool}> $expiredAccounts
  * @var string $legalNoticeConfigLink
  * @var array{registrationEnabled:bool,cautionEnabled:bool,perUserConsentStored:bool} $registrationConsentStatus
+ * @var bool $registrationSettingsSubmitted
  * @var string $acceptableUseAgreementText
  * @var string $siteRegistrationConfigLink
  * @var array<string,string> $treeOptions
@@ -29,6 +30,7 @@ use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
 $inactive_warning = $expiredAccounts !== [] || $lastRetentionYears !== $retentionYears;
 $registration_warning = $registrationConsentStatus['registrationEnabled'] && !$registrationConsentStatus['cautionEnabled'];
 $sensitive_warning = !$privacyPolicySettingsComplete || $protectionResult !== [];
+$registration_open = $registration_warning || $registrationSettingsSubmitted;
 
 $inactive_status = $inactive_warning ? I18N::translate('Action needed') : I18N::translate('OK');
 $registration_status = $registration_warning ? I18N::translate('Warning') : I18N::translate('OK');
@@ -172,12 +174,12 @@ $sensitive_badge = $sensitive_warning ? 'bg-warning text-dark' : 'bg-success';
 
     <div class="accordion-item">
         <h2 class="accordion-header" id="heading-registration">
-            <button class="accordion-button <?= $registration_warning ? '' : 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-registration" aria-expanded="<?= $registration_warning ? 'true' : 'false' ?>" aria-controls="collapse-registration">
+            <button class="accordion-button <?= $registration_open ? '' : 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-registration" aria-expanded="<?= $registration_open ? 'true' : 'false' ?>" aria-controls="collapse-registration">
                 <span class="me-2"><?= I18N::translate('Self-registration and acceptable use agreement') ?></span>
                 <span class="badge <?= e($registration_badge) ?>"><?= $registration_status ?></span>
             </button>
         </h2>
-        <div id="collapse-registration" class="accordion-collapse collapse <?= $registration_warning ? 'show' : '' ?>" aria-labelledby="heading-registration">
+        <div id="collapse-registration" class="accordion-collapse collapse <?= $registration_open ? 'show' : '' ?>" aria-labelledby="heading-registration">
             <div class="accordion-body">
                 <p>
                     <?= I18N::translate('This check distinguishes between the current global registration settings and proof that a specific user accepted the terms during self-registration.') ?>
