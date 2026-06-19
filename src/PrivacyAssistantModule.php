@@ -208,7 +208,7 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
 
     public function customTranslations(string $language): array
     {
-        $lang_dir = $this->resourcesFolder() . 'lang' . DIRECTORY_SEPARATOR;
+        $lang_dir = $this->resourcesFolder() . 'lang/';
         $file = $lang_dir . $language . '.mo';
 
         if (file_exists($file)) {
@@ -220,12 +220,12 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
 
     public function resourcesFolder(): string
     {
-        return __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR;
+        return strtr(__DIR__ . '/../resources/', DIRECTORY_SEPARATOR, '/');
     }
 
     public function boot(): void
     {
-        View::registerNamespace($this->name(), $this->resourcesFolder() . 'views' . DIRECTORY_SEPARATOR);
+        View::registerNamespace($this->name(), $this->resourcesFolder() . 'views/');
     }
 
     public function bodyContent(): string
