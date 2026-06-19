@@ -7,6 +7,7 @@ namespace Hartenthaler\Webtrees\Module\PrivacyAssistant;
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Contracts\UserInterface;
 use Fisharebest\Webtrees\Http\Exceptions\HttpAccessDeniedException;
+use Fisharebest\Webtrees\Http\RequestHandlers\SiteRegistrationPage;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
 use Fisharebest\Webtrees\Module\AbstractModule;
@@ -19,6 +20,7 @@ use Fisharebest\Webtrees\Module\ModuleGlobalTrait;
 use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Services\TreeService;
 use Fisharebest\Webtrees\Services\UserService;
+use Fisharebest\Webtrees\Site;
 use Fisharebest\Webtrees\Tree;
 use Fisharebest\Webtrees\View;
 use Fisharebest\Webtrees\Webtrees;
@@ -253,6 +255,8 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
             'lastRetentionYears' => (int) $this->getPreference(self::PREF_LAST_YEARS, '0'),
             'expiredAccounts' => $this->expiredUserAccounts(),
             'legalNoticeConfigLink' => route('module', ['module' => self::LEGAL_NOTICE_MODULE, 'action' => 'Admin']),
+            'registrationConsentStatus' => $this->registrationConsentStatus(),
+            'siteRegistrationConfigLink' => route(SiteRegistrationPage::class),
             'treeOptions' => $trees,
             'selectedProtectionTree' => $selected_tree_name,
             'releaseYears' => $release_years,
@@ -300,6 +304,18 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
         $years = (int) ($value ?? 0);
 
         return max(0, min(10, $years));
+    }
+
+    /**
+     * @return array{registrationEnabled:bool,cautionEnabled:bool,perUserConsentStored:bool}
+     */
+    private function registrationConsentStatus(): array
+    {
+        return [
+            'registrationEnabled' => Site::getPreference('USE_REGISTRATION_MODULE') === '1',
+            'cautionEnabled' => Site::getPreference('SHOW_REGISTER_CAUTION') === '1',
+            'perUserConsentStored' => false,
+        ];
     }
 
     /**

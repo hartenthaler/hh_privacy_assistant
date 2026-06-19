@@ -93,6 +93,42 @@ msgstr "Inaktive Tage"
 msgid "administrator"
 msgstr "Administrator"
 
+msgid "Self-registration and acceptable use agreement"
+msgstr "Selbstregistrierung und Nutzungsbedingungen"
+
+msgid "This check distinguishes between the current global registration settings and proof that a specific user accepted the terms during self-registration."
+msgstr "Diese Prüfung unterscheidet zwischen den aktuellen globalen Registrierungseinstellungen und dem Nachweis, dass ein bestimmter Nutzer die Bedingungen bei der Selbstregistrierung akzeptiert hat."
+
+msgid "Visitors can request a new user account"
+msgstr "Besucher können ein neues Benutzerkonto anfordern"
+
+msgid "Acceptable use agreement is shown during self-registration"
+msgstr "Nutzungsbedingungen werden bei der Selbstregistrierung angezeigt"
+
+msgid "Change in webtrees sign-in and registration settings"
+msgstr "In den webtrees-Einstellungen zu Anmeldung und Registrierung ändern"
+
+msgid "Per-user acceptance record"
+msgstr "Nutzerbezogener Zustimmungsnachweis"
+
+msgid "available"
+msgstr "verfügbar"
+
+msgid "not available"
+msgstr "nicht verfügbar"
+
+msgid "Self-registration is enabled, but the acceptable use agreement is not shown. New users can request an account without seeing this privacy-related notice."
+msgstr "Die Selbstregistrierung ist aktiviert, aber die Nutzungsbedingungen werden nicht angezeigt. Neue Nutzer können ein Konto anfordern, ohne diesen datenschutzbezogenen Hinweis zu sehen."
+
+msgid "Self-registration is disabled. The acceptable use agreement is therefore not part of the current registration workflow."
+msgstr "Die Selbstregistrierung ist deaktiviert. Die Nutzungsbedingungen sind daher nicht Teil des aktuellen Registrierungsablaufs."
+
+msgid "webtrees currently shows the acceptable use agreement as notice text only. It does not store a separate, audit-proof acceptance record for each registered user."
+msgstr "webtrees zeigt die Nutzungsbedingungen derzeit nur als Hinweistext an. Ein separater, revisionssicherer Zustimmungsnachweis wird für registrierte Nutzer nicht gespeichert."
+
+msgid "For audit-proof documentation, webtrees would need to store the exact text, version, timestamp, and user account for each acceptance."
+msgstr "Für eine revisionssichere Dokumentation müsste webtrees zu jeder Zustimmung den genauen Text, die Version, den Zeitstempel und das Benutzerkonto speichern."
+
 msgid "Sensitive information"
 msgstr "Besonders schutzwürdige Informationen"
 
@@ -198,5 +234,5 @@ msgid_plural "not known to be dead for at least %s years"
 msgstr[0] "nicht nachweislich seit mindestens %s Jahr verstorben"
 msgstr[1] "nicht nachweislich seit mindestens %s Jahren verstorben"
 
-msgid "This first version monitors the configured retention period and reports overdue accounts. It does not delete accounts automatically. The sensitive-information prototype changes GEDCOM facts only after confirmation."
-msgstr "Diese erste Version überwacht die konfigurierte Aufbewahrungsfrist und meldet überfällige Konten. Sie löscht keine Konten automatisch. Der Prototyp für besonders schutzwürdige Informationen ändert GEDCOM-Fakten nur nach Bestätigung."
+msgid "The assistant reports privacy and security findings for administrative review. It does not delete accounts automatically, and GEDCOM facts are changed only after confirmation."
+msgstr "Der Assistent meldet Datenschutz- und Sicherheitsbefunde zur administrativen Prüfung. Er löscht keine Konten automatisch, und GEDCOM-Fakten werden nur nach Bestätigung geändert."

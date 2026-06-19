@@ -14,6 +14,8 @@ use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
  * @var int $lastRetentionYears
  * @var list<array{id:int,userName:string,realName:string,email:string,registered:string,lastActivity:string,inactiveDays:int,isAdmin:bool}> $expiredAccounts
  * @var string $legalNoticeConfigLink
+ * @var array{registrationEnabled:bool,cautionEnabled:bool,perUserConsentStored:bool} $registrationConsentStatus
+ * @var string $siteRegistrationConfigLink
  * @var array<string,string> $treeOptions
  * @var string $selectedProtectionTree
  * @var int $releaseYears
@@ -102,6 +104,63 @@ use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
         </tbody>
     </table>
 <?php endif ?>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h2 class="h4"><?= I18N::translate('Self-registration and acceptable use agreement') ?></h2>
+
+        <p>
+            <?= I18N::translate('This check distinguishes between the current global registration settings and proof that a specific user accepted the terms during self-registration.') ?>
+        </p>
+
+        <dl class="row mb-0">
+            <dt class="col-sm-4"><?= I18N::translate('Visitors can request a new user account') ?></dt>
+            <dd class="col-sm-8">
+                <?php if ($registrationConsentStatus['registrationEnabled']) : ?>
+                    <span class="badge bg-success"><?= I18N::translate('yes') ?></span>
+                <?php else : ?>
+                    <span class="badge bg-secondary"><?= I18N::translate('no') ?></span>
+                <?php endif ?>
+            </dd>
+
+            <dt class="col-sm-4"><?= I18N::translate('Acceptable use agreement is shown during self-registration') ?></dt>
+            <dd class="col-sm-8">
+                <?php if ($registrationConsentStatus['cautionEnabled']) : ?>
+                    <span class="badge bg-success"><?= I18N::translate('yes') ?></span>
+                <?php else : ?>
+                    <span class="badge bg-warning text-dark"><?= I18N::translate('no') ?></span>
+                <?php endif ?>
+                <a class="ms-2" href="<?= e($siteRegistrationConfigLink) ?>"><?= I18N::translate('Change in webtrees sign-in and registration settings') ?></a>
+            </dd>
+
+            <dt class="col-sm-4"><?= I18N::translate('Per-user acceptance record') ?></dt>
+            <dd class="col-sm-8">
+                <?php if ($registrationConsentStatus['perUserConsentStored']) : ?>
+                    <span class="badge bg-success"><?= I18N::translate('available') ?></span>
+                <?php else : ?>
+                    <span class="badge bg-warning text-dark"><?= I18N::translate('not available') ?></span>
+                <?php endif ?>
+            </dd>
+        </dl>
+
+        <?php if ($registrationConsentStatus['registrationEnabled'] && !$registrationConsentStatus['cautionEnabled']) : ?>
+            <div class="alert alert-warning mt-3 mb-0">
+                <?= I18N::translate('Self-registration is enabled, but the acceptable use agreement is not shown. New users can request an account without seeing this privacy-related notice.') ?>
+            </div>
+        <?php elseif (!$registrationConsentStatus['registrationEnabled']) : ?>
+            <div class="alert alert-info mt-3 mb-0">
+                <?= I18N::translate('Self-registration is disabled. The acceptable use agreement is therefore not part of the current registration workflow.') ?>
+            </div>
+        <?php endif ?>
+
+        <?php if (!$registrationConsentStatus['perUserConsentStored']) : ?>
+            <div class="alert alert-info mt-3 mb-0">
+                <?= I18N::translate('webtrees currently shows the acceptable use agreement as notice text only. It does not store a separate, audit-proof acceptance record for each registered user.') ?>
+                <?= I18N::translate('For audit-proof documentation, webtrees would need to store the exact text, version, timestamp, and user account for each acceptance.') ?>
+            </div>
+        <?php endif ?>
+    </div>
+</div>
 
 <div class="card mb-3">
     <div class="card-body">
@@ -195,5 +254,5 @@ use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
 </div>
 
 <p class="small text-muted">
-    <?= I18N::translate('This first version monitors the configured retention period and reports overdue accounts. It does not delete accounts automatically. The sensitive-information prototype changes GEDCOM facts only after confirmation.') ?>
+    <?= I18N::translate('The assistant reports privacy and security findings for administrative review. It does not delete accounts automatically, and GEDCOM facts are changed only after confirmation.') ?>
 </p>
