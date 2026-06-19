@@ -126,6 +126,41 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
             'tags' => ['DEAT'],
             'attribute' => 'CAUS',
         ],
+        [
+            'label' => 'Arrest',
+            'tags' => ['EVEN'],
+            'types' => ['Verhaftung', 'Arrest'],
+        ],
+        [
+            'label' => 'Indictment',
+            'tags' => ['EVEN'],
+            'types' => ['Anklage', 'Indictment'],
+        ],
+        [
+            'label' => 'Criminal conviction',
+            'tags' => ['EVEN'],
+            'types' => ['Verurteilung', 'Conviction'],
+        ],
+        [
+            'label' => 'Criminal offence',
+            'tags' => ['EVEN'],
+            'types' => ['Straftat', 'Criminal Offense', 'Criminal Offence'],
+        ],
+        [
+            'label' => 'Imprisonment',
+            'tags' => ['EVEN'],
+            'types' => ['Inhaftierung', 'Imprisonment'],
+        ],
+        [
+            'label' => 'Pardon',
+            'tags' => ['EVEN'],
+            'types' => ['Begnadigung', 'Pardon'],
+        ],
+        [
+            'label' => 'Deportation',
+            'tags' => ['EVEN'],
+            'types' => ['Deportation'],
+        ],
     ];
 
     private UserService $userService;
@@ -174,14 +209,6 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
 
         if (file_exists($file)) {
             return (new Translation($file))->asArray();
-        }
-
-        $file = $lang_dir . $language . '.php';
-
-        if (file_exists($file)) {
-            $translations = include $file;
-
-            return is_array($translations) ? $translations : [];
         }
 
         return [];
@@ -484,6 +511,10 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
             }
 
             if (isset($pattern['type']) && $fact->attribute('TYPE') !== $pattern['type']) {
+                continue;
+            }
+
+            if (isset($pattern['types']) && !in_array($fact->attribute('TYPE'), $pattern['types'], true)) {
                 continue;
             }
 
