@@ -33,7 +33,7 @@ This README contains the following main sections:
 
 The Privacy and Security Assistant supports recurring checks that are easy to forget in daily administration.
 
-It currently focuses on two areas:
+It currently focuses on these areas:
 
 * monitoring inactive user accounts against the retention period documented in the privacy policy
 * reviewing sensitive genealogical information and applying or removing GEDCOM privacy restrictions where appropriate
@@ -72,6 +72,7 @@ The assistant scans facts that may contain sensitive information, for example:
 * trade union membership (`FACT` with `TYPE Trade Union Membership`)
 * DNA information (`FACT` with `TYPE Y-DNA Haplogroup` or `TYPE mtDNA Haplogroup`, `EVEN` with `TYPE DNA Test`)
 * cause of death (`DEAT` with `CAUS`)
+* criminal-law events (`EVEN` with `TYPE` values such as `Arrest`, `Indictment`, `Conviction`, `Criminal Offense`, `Criminal Offence`, `Imprisonment`, `Pardon`, or `Deportation`; German equivalents such as `Verhaftung`, `Anklage`, `Verurteilung`, `Straftat`, `Inhaftierung`, and `Begnadigung` are recognized as well)
 
 For people who are not known to have been dead for the configured number of years,
 `2 RESN CONFIDENTIAL` is added to matching facts when missing.
@@ -80,6 +81,9 @@ an existing `2 RESN CONFIDENTIAL` on matching facts is removed.
 
 The action can be previewed before changes are applied.
 For causes of death, GEDCOM allows the restriction only on the `DEAT` fact, not on the `CAUS` substructure alone.
+
+Sample GEDCOM data for all supported sensitive-data patterns is available in [`test-data/sensitive-data-patterns.ged`](test-data/sensitive-data-patterns.ged).
+The automated test approach is described in [`docs/automated-test-concept.md`](docs/automated-test-concept.md).
 
 ### Self-registration and Acceptable Use Agreement
 

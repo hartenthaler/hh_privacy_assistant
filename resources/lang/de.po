@@ -222,6 +222,27 @@ msgstr "DNA-Test"
 msgid "Cause of death"
 msgstr "Todesursache"
 
+msgid "Arrest"
+msgstr "Verhaftung"
+
+msgid "Indictment"
+msgstr "Anklage"
+
+msgid "Criminal conviction"
+msgstr "Strafrechtliche Verurteilung"
+
+msgid "Criminal offence"
+msgstr "Straftat"
+
+msgid "Imprisonment"
+msgstr "Inhaftierung"
+
+msgid "Pardon"
+msgstr "Begnadigung"
+
+msgid "Deportation"
+msgstr "Deportation"
+
 #, php-format
 msgid "dead for at least %s year"
 msgid_plural "dead for at least %s years"

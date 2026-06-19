@@ -1,0 +1,149 @@
+0 HEAD
+1 SOUR HH_PRIVACY_ASSISTANT_TEST
+2 NAME hh_privacy_assistant sensitive-data fixture
+2 VERS 1.0
+1 GEDC
+2 VERS 5.5.1
+2 FORM LINEAGE-LINKED
+1 CHAR UTF-8
+1 LANG English
+1 NOTE Synthetic test data. Do not import into a production tree.
+0 @I1@ INDI
+1 NAME Anna /Lebend/
+1 SEX F
+1 BIRT
+2 DATE 12 MAY 1988
+2 PLAC Hannover, Niedersachsen, DEU
+1 FACT Ashkenazi Jewish
+2 TYPE Ethnic Origin
+2 DATE 2020
+2 SOUR @S1@
+1 DSCR 168 cm, green eyes, visible birthmark
+1 FACT Future Party
+2 TYPE Political Party Membership
+2 DATE FROM 2018
+1 EVEN Climate-rights association board member
+2 TYPE Political Affiliation
+2 DATE FROM 2019
+1 RELI humanist
+1 EVEN Left church community
+2 TYPE Religious Event
+2 DATE 12 MAR 2010
+1 FACT Education Union
+2 TYPE Trade Union Membership
+2 DATE FROM 2015
+1 FACT R1b-L21
+2 TYPE Y-DNA Haplogroup
+1 FACT H3
+2 TYPE mtDNA Haplogroup
+1 EVEN Direct-to-consumer DNA test
+2 TYPE DNA Test
+2 DATE 2022
+1 EVEN
+2 TYPE Verhaftung
+2 DATE 15 MAR 2024
+2 PLAC Berlin, DEU
+2 NOTE Invented example arrest record.
+0 @I2@ INDI
+1 NAME Bernhard /Kurzverstorben/
+1 SEX M
+1 BIRT
+2 DATE 3 APR 1955
+2 PLAC Leipzig, Sachsen, DEU
+1 DEAT
+2 DATE 17 FEB 2020
+2 PLAC Leipzig, Sachsen, DEU
+2 CAUS Invented infectious illness
+1 FACT City Workers Union
+2 TYPE Trade Union Membership
+2 DATE FROM 1976 TO 1999
+1 EVEN
+2 TYPE Anklage
+2 DATE 2 JUN 1984
+2 PLAC Leipzig, Sachsen, DEU
+2 NOTE Invented indictment record.
+1 EVEN
+2 TYPE Conviction
+2 DATE 15 JUL 1984
+2 PLAC Leipzig, Sachsen, DEU
+2 NOTE Invented conviction record.
+0 @I3@ INDI
+1 NAME Clara /Langverstorben/
+1 SEX F
+1 BIRT
+2 DATE 8 AUG 1901
+2 PLAC Bremen, DEU
+1 DEAT
+2 DATE 9 SEP 1970
+2 PLAC Bremen, DEU
+1 RELI Roman Catholic
+2 RESN CONFIDENTIAL
+1 BAPM
+2 DATE 30 AUG 1901
+2 PLAC Bremen, DEU
+2 RESN CONFIDENTIAL
+1 CONF
+2 DATE 12 APR 1916
+2 PLAC Bremen, DEU
+2 RESN CONFIDENTIAL
+1 FACT Social Reform League
+2 TYPE Political Party Membership
+2 DATE FROM 1928 TO 1933
+2 RESN CONFIDENTIAL
+1 EVEN
+2 TYPE Imprisonment
+2 DATE FROM 1934 TO 1935
+2 PLAC Bremen, DEU
+2 NOTE Invented imprisonment record.
+2 RESN CONFIDENTIAL
+1 EVEN
+2 TYPE Begnadigung
+2 DATE 2 FEB 1936
+2 PLAC Bremen, DEU
+2 RESN CONFIDENTIAL
+0 @I4@ INDI
+1 NAME David /LangverstorbenOhneSperre/
+1 SEX M
+1 BIRT
+2 DATE 21 JAN 1890
+2 PLAC Hamburg, DEU
+1 DEAT
+2 DATE 13 NOV 1962
+2 PLAC Hamburg, DEU
+1 EVEN
+2 TYPE Deportation
+2 DATE 7 MAY 1912
+2 PLAC Hamburg, DEU
+2 NOTE Invented deportation record.
+0 @I5@ INDI
+1 NAME Emilie /KurzverstorbenGeschuetzt/
+1 SEX F
+1 BIRT
+2 DATE 4 FEB 1940
+2 PLAC Koeln, Nordrhein-Westfalen, DEU
+1 DEAT
+2 DATE 10 OCT 2018
+2 PLAC Koeln, Nordrhein-Westfalen, DEU
+1 EVEN
+2 TYPE Pardon
+2 DATE 1 JAN 1980
+2 PLAC Koeln, Nordrhein-Westfalen, DEU
+2 RESN CONFIDENTIAL
+0 @I6@ INDI
+1 NAME Felix /Kind/
+1 SEX M
+1 BIRT
+2 DATE 6 JUN 2012
+2 PLAC Mainz, Rheinland-Pfalz, DEU
+1 CHR
+2 DATE 1 JUL 2012
+2 PLAC Mainz, Rheinland-Pfalz, DEU
+1 EVEN
+2 TYPE Criminal Offence
+2 DATE 4 APR 2025
+2 PLAC Mainz, Rheinland-Pfalz, DEU
+2 NOTE Invented juvenile offence example.
+0 @S1@ SOUR
+1 TITL Synthetic sensitive-data example source
+1 NOTE This source exists only for automated module testing.
+0 TRLR
