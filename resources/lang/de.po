@@ -27,6 +27,9 @@ msgstr "Überwacht Datenschutz- und Sicherheitsaufgaben für diese webtrees-Webs
 msgid "Inactive user accounts"
 msgstr "Inaktive Benutzerkonten"
 
+msgid "The values from the generated privacy policy could not be imported. The assistant is using local fallback values."
+msgstr "Die Werte aus der erzeugten Datenschutzerklärung konnten nicht importiert werden. Der Assistent verwendet lokale Ersatzwerte."
+
 msgid "No retention period for inactive user accounts is currently configured. The assistant therefore does not report accounts as overdue."
 msgstr "Derzeit ist keine Aufbewahrungsfrist für inaktive Benutzerkonten konfiguriert. Der Assistent meldet daher keine Konten als überfällig."
 
@@ -140,6 +143,12 @@ msgstr "Stammbaum"
 
 msgid "Release after death"
 msgstr "Freigabe nach Tod"
+
+msgid "The default value was imported from the generated privacy policy."
+msgstr "Der Standardwert wurde aus der erzeugten Datenschutzerklärung importiert."
+
+msgid "A local fallback value is used because the generated privacy policy settings are unavailable."
+msgstr "Es wird ein lokaler Ersatzwert verwendet, weil die Einstellungen der erzeugten Datenschutzerklärung nicht verfügbar sind."
 
 msgid "Preview"
 msgstr "Vorschau"

@@ -45,6 +45,15 @@ GEDCOM changes for sensitive information are shown as a preview and are applied 
 <a name="scope"></a>
 ## Scope
 
+### Shared Settings from hh_legal_notice
+
+The assistant reads privacy-policy values from `hh_legal_notice` whenever that module is installed and enabled:
+
+* `inactiveUserYears` for inactive user account retention
+* `sensitiveDataYears` for the sensitive-data protection period after death
+
+If these values cannot be imported, the assistant shows an administrator warning and continues with local fallback values.
+
 ### Inactive User Accounts
 
 The assistant reads the retention period from the `hh_legal_notice` setting `inactiveUserYears`.
@@ -60,6 +69,7 @@ The module stores the timestamp and result count of the last scan.
 ### Sensitive Genealogical Information
 
 Administrators can select a tree and a release period after death.
+The default release period is read from the `hh_legal_notice` setting `sensitiveDataYears`.
 The assistant scans facts that may contain sensitive information, for example:
 
 * ethnic origin (`FACT` with `TYPE Ethnic Origin`)
@@ -102,7 +112,7 @@ audit-proof acceptance record for each registered user.
 This module requires **webtrees** version 2.2.
 
 The module is designed to be used together with `hh_legal_notice`.
-The inactive-account retention period is intentionally configured in `hh_legal_notice` and reused here.
+The inactive-account retention period and sensitive-data protection period are intentionally configured in `hh_legal_notice` and reused here.
 
 <a name="installation"></a>
 ## Installation
