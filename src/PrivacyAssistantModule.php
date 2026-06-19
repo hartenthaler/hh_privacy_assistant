@@ -6,6 +6,7 @@ namespace Hartenthaler\Webtrees\Module\PrivacyAssistant;
 
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Contracts\UserInterface;
+use Fisharebest\Webtrees\FlashMessages;
 use Fisharebest\Webtrees\Http\Exceptions\HttpAccessDeniedException;
 use Fisharebest\Webtrees\Http\RequestHandlers\SiteRegistrationPage;
 use Fisharebest\Webtrees\I18N;
@@ -61,10 +62,12 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
 
     private const LEGAL_NOTICE_MODULE = '_hh_legal_notice_';
     private const LEGAL_NOTICE_RETENTION_SETTING = 'inactiveUserYears';
+    private const LEGAL_NOTICE_SENSITIVE_SETTING = 'sensitiveDataYears';
     private const PREF_LAST_SCAN = 'lastScan';
     private const PREF_LAST_COUNT = 'lastExpiredCount';
     private const PREF_LAST_YEARS = 'lastRetentionYears';
     private const SCAN_INTERVAL_SECONDS = 86400;
+    private const DEFAULT_RETENTION_YEARS = 0;
     private const DEFAULT_RELEASE_YEARS = 30;
     private const PROTECTION_RESTRICTION = 'CONFIDENTIAL';
     private const SENSITIVE_FACT_TAGS = ['BAPM', 'CHR', 'CONF', 'DEAT', 'DSCR', 'EVEN', 'FACT', 'RELI'];
@@ -257,9 +260,15 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
     private function adminResponse(ServerRequestInterface $request, bool $submitted = false): ResponseInterface
     {
         $params = $submitted ? (array) $request->getParsedBody() : $request->getQueryParams();
+        $privacy_policy_settings = $this->privacyPolicySettings();
+
+        if (!$privacy_policy_settings['complete']) {
+            FlashMessages::addMessage(I18N::translate('The values from the generated privacy policy could not be imported. The assistant is using local fallback values.'), 'warning');
+        }
+
         $trees = $this->treeOptions();
         $selected_tree_name = (string) ($params['protectionTree'] ?? array_key_first($trees) ?? '');
-        $release_years = $this->validReleaseYears((int) ($params['releaseYears'] ?? self::DEFAULT_RELEASE_YEARS));
+        $release_years = $this->validReleaseYears((int) ($params['releaseYears'] ?? $privacy_policy_settings['sensitiveDataYears']));
         $protection_result = [];
         $applied = false;
 
@@ -276,7 +285,7 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
         return $this->viewResponse($this->name() . '::settings', [
             'title' => $this->title(),
             'description' => $this->description(),
-            'retentionYears' => $this->inactiveUserRetentionYears(),
+            'retentionYears' => $privacy_policy_settings['inactiveUserYears'],
             'lastScan' => $this->formattedTimestamp((int) $this->getPreference(self::PREF_LAST_SCAN, '0')),
             'lastExpiredCount' => (int) $this->getPreference(self::PREF_LAST_COUNT, '0'),
             'lastRetentionYears' => (int) $this->getPreference(self::PREF_LAST_YEARS, '0'),
@@ -287,6 +296,7 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
             'treeOptions' => $trees,
             'selectedProtectionTree' => $selected_tree_name,
             'releaseYears' => $release_years,
+            'privacyPolicySettingsComplete' => $privacy_policy_settings['complete'],
             'protectionResult' => $protection_result,
             'protectionApplied' => $applied,
             'protectionSubmitted' => $submitted,
@@ -318,8 +328,41 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
 
     private function inactiveUserRetentionYears(): int
     {
+        return $this->privacyPolicySettings()['inactiveUserYears'];
+    }
+
+    /**
+     * @return array{inactiveUserYears:int,sensitiveDataYears:int,complete:bool}
+     */
+    private function privacyPolicySettings(): array
+    {
+        $module_available = $this->legalNoticeModuleAvailable();
+        $inactive_user_years = $module_available ? $this->legalNoticeSetting(self::LEGAL_NOTICE_RETENTION_SETTING) : null;
+        $sensitive_data_years = $module_available ? $this->legalNoticeSetting(self::LEGAL_NOTICE_SENSITIVE_SETTING) : null;
+
+        return [
+            'inactiveUserYears' => max(0, min(10, (int) ($inactive_user_years ?? self::DEFAULT_RETENTION_YEARS))),
+            'sensitiveDataYears' => $this->validReleaseYears((int) ($sensitive_data_years ?? self::DEFAULT_RELEASE_YEARS)),
+            'complete' => $module_available && $inactive_user_years !== null && $sensitive_data_years !== null,
+        ];
+    }
+
+    private function legalNoticeModuleAvailable(): bool
+    {
+        return DB::table('module')
+            ->where(function ($query): void {
+                $query
+                    ->where('module_name', '=', self::LEGAL_NOTICE_MODULE)
+                    ->orWhere('module_name', 'like', '%legal_notice%');
+            })
+            ->where('status', '=', 'enabled')
+            ->exists();
+    }
+
+    private function legalNoticeSetting(string $setting_name): string|null
+    {
         $value = DB::table('module_setting')
-            ->where('setting_name', '=', self::LEGAL_NOTICE_RETENTION_SETTING)
+            ->where('setting_name', '=', $setting_name)
             ->where(function ($query): void {
                 $query
                     ->where('module_name', '=', self::LEGAL_NOTICE_MODULE)
@@ -328,9 +371,7 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
             ->orderByRaw('module_name = ? desc', [self::LEGAL_NOTICE_MODULE])
             ->value('setting_value');
 
-        $years = (int) ($value ?? 0);
-
-        return max(0, min(10, $years));
+        return $value === null ? null : (string) $value;
     }
 
     /**

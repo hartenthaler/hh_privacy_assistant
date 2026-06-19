@@ -19,6 +19,7 @@ use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
  * @var array<string,string> $treeOptions
  * @var string $selectedProtectionTree
  * @var int $releaseYears
+ * @var bool $privacyPolicySettingsComplete
  * @var list<array{xref:string,name:string,url:string,lifespan:string,pattern:string,fact:string,deathStatus:string,action:string,changed:bool}> $protectionResult
  * @var bool $protectionApplied
  * @var bool $protectionSubmitted
@@ -186,6 +187,13 @@ use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
             <div class="col-md-3">
                 <label class="form-label" for="releaseYears"><?= I18N::translate('Release after death') ?></label>
                 <input class="form-control" id="releaseYears" name="releaseYears" type="number" min="0" max="150" value="<?= e((string) $releaseYears) ?>">
+                <div class="form-text">
+                    <?php if ($privacyPolicySettingsComplete) : ?>
+                        <?= I18N::translate('The default value was imported from the generated privacy policy.') ?>
+                    <?php else : ?>
+                        <?= I18N::translate('A local fallback value is used because the generated privacy policy settings are unavailable.') ?>
+                    <?php endif ?>
+                </div>
             </div>
 
             <div class="col-md-4 d-flex align-items-end gap-2">
