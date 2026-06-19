@@ -33,6 +33,7 @@ $inactive_warning = $expiredAccounts !== [] || $lastRetentionYears !== $retentio
 $registration_warning = $registrationConsentStatus['registrationEnabled'] && !$registrationConsentStatus['cautionEnabled'];
 $sensitive_warning = !$privacyPolicySettingsComplete || $protectionResult !== [];
 $registration_open = $registration_warning || $registrationSettingsSubmitted;
+$sensitive_open = $sensitive_warning || $protectionSubmitted;
 
 $inactive_status = $inactive_warning ? I18N::translate('Action needed') : I18N::translate('OK');
 $registration_status = $registration_warning ? I18N::translate('Warning') : I18N::translate('OK');
@@ -278,12 +279,12 @@ $sensitive_badge = $sensitive_warning ? 'bg-warning text-dark' : 'bg-success';
 
     <div class="accordion-item">
         <h2 class="accordion-header" id="heading-sensitive-information">
-            <button class="accordion-button <?= $sensitive_warning ? '' : 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-sensitive-information" aria-expanded="<?= $sensitive_warning ? 'true' : 'false' ?>" aria-controls="collapse-sensitive-information">
+            <button class="accordion-button <?= $sensitive_open ? '' : 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-sensitive-information" aria-expanded="<?= $sensitive_open ? 'true' : 'false' ?>" aria-controls="collapse-sensitive-information">
                 <span class="me-2"><?= I18N::translate('Sensitive information') ?></span>
                 <span class="badge <?= e($sensitive_badge) ?>"><?= $sensitive_status ?></span>
             </button>
         </h2>
-        <div id="collapse-sensitive-information" class="accordion-collapse collapse <?= $sensitive_warning ? 'show' : '' ?>" aria-labelledby="heading-sensitive-information">
+        <div id="collapse-sensitive-information" class="accordion-collapse collapse <?= $sensitive_open ? 'show' : '' ?>" aria-labelledby="heading-sensitive-information">
             <div class="accordion-body">
                 <p>
                     <?= I18N::translate('Sensitive facts can be protected with RESN CONFIDENTIAL until the person has been dead for the configured number of years.') ?>
