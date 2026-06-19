@@ -211,14 +211,6 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
             return (new Translation($file))->asArray();
         }
 
-        $file = $lang_dir . $language . '.php';
-
-        if (file_exists($file)) {
-            $translations = include $file;
-
-            return is_array($translations) ? $translations : [];
-        }
-
         return [];
     }
 
