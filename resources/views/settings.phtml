@@ -25,275 +25,351 @@ use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
  * @var bool $protectionApplied
  * @var bool $protectionSubmitted
  */
+
+$inactive_warning = $expiredAccounts !== [] || $lastRetentionYears !== $retentionYears;
+$registration_warning = $registrationConsentStatus['registrationEnabled'] && !$registrationConsentStatus['cautionEnabled'];
+$sensitive_warning = !$privacyPolicySettingsComplete || $protectionResult !== [];
+
+$inactive_status = $inactive_warning ? I18N::translate('Action needed') : I18N::translate('OK');
+$registration_status = $registration_warning ? I18N::translate('Warning') : I18N::translate('OK');
+$sensitive_status = $sensitive_warning ? I18N::translate('Review needed') : I18N::translate('OK');
+
+$inactive_badge = $inactive_warning ? 'bg-warning text-dark' : 'bg-success';
+$registration_badge = $registration_warning ? 'bg-warning text-dark' : 'bg-success';
+$sensitive_badge = $sensitive_warning ? 'bg-warning text-dark' : 'bg-success';
 ?>
 
 <h1><?= e($title) ?></h1>
 <p><?= e($description) ?></p>
 
-<div class="card mb-3">
-    <div class="card-body">
-        <h2 class="h4"><?= I18N::translate('Inactive user accounts') ?></h2>
-
-        <?php if ($retentionYears === 0) : ?>
-            <p>
-                <?= I18N::translate('No retention period for inactive user accounts is currently configured. The assistant therefore does not report accounts as overdue.') ?>
-            </p>
-        <?php else : ?>
-            <p>
-                <?= I18N::plural('The privacy policy currently states that inactive user accounts are deleted after %s year.', 'The privacy policy currently states that inactive user accounts are deleted after %s years.', $retentionYears, I18N::number($retentionYears)) ?>
-            </p>
-            <p>
-                <?= I18N::plural('%s user account has reached or exceeded this retention period.', '%s user accounts have reached or exceeded this retention period.', count($expiredAccounts), I18N::number(count($expiredAccounts))) ?>
-            </p>
-        <?php endif ?>
-
-        <dl class="row mb-0">
-            <dt class="col-sm-3"><?= I18N::translate('Retention setting') ?></dt>
-            <dd class="col-sm-9">
-                <?php if ($retentionYears === 0) : ?>
-                    <?= I18N::translate('never') ?>
-                <?php else : ?>
-                    <?= I18N::plural('%s year', '%s years', $retentionYears, I18N::number($retentionYears)) ?>
-                <?php endif ?>
-                <a class="ms-2" href="<?= e($legalNoticeConfigLink) ?>"><?= I18N::translate('Change in legal notice module') ?></a>
-            </dd>
-
-            <dt class="col-sm-3"><?= I18N::translate('Last scan') ?></dt>
-            <dd class="col-sm-9"><?= $lastScan === '' ? I18N::translate('not yet') : e($lastScan) ?></dd>
-
-            <dt class="col-sm-3"><?= I18N::translate('Last scan result') ?></dt>
-            <dd class="col-sm-9">
-                <?= I18N::plural('%s overdue account', '%s overdue accounts', $lastExpiredCount, I18N::number($lastExpiredCount)) ?>
-                <?php if ($lastRetentionYears !== $retentionYears) : ?>
-                    <span class="text-muted">
-                        <?= I18N::translate('The retention setting has changed since the last scan.') ?>
-                    </span>
-                <?php endif ?>
-            </dd>
-        </dl>
-    </div>
-</div>
-
-<?php if ($expiredAccounts !== []) : ?>
-    <table class="table table-bordered table-sm wt-table-menu">
-        <thead>
-            <tr>
-                <th><?= I18N::translate('User name') ?></th>
-                <th><?= MoreI18N::xlate('Real name') ?></th>
-                <th><?= I18N::translate('E-mail') ?></th>
-                <th><?= I18N::translate('Registered') ?></th>
-                <th><?= I18N::translate('Last login') ?></th>
-                <th class="text-end"><?= I18N::translate('Inactive days') ?></th>
-                <th><?= MoreI18N::xlate('Notes') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($expiredAccounts as $account) : ?>
-                <tr>
-                    <td><?= e($account['userName']) ?></td>
-                    <td><?= e($account['realName']) ?></td>
-                    <td><?= e($account['email']) ?></td>
-                    <td><?= e($account['registered']) ?></td>
-                    <td><?= e($account['lastActivity']) ?></td>
-                    <td class="text-end"><?= I18N::number($account['inactiveDays']) ?></td>
-                    <td>
-                        <?php if ($account['isAdmin']) : ?>
-                            <span class="badge bg-warning text-dark"><?= I18N::translate('administrator') ?></span>
-                        <?php endif ?>
-                    </td>
-                </tr>
-            <?php endforeach ?>
-        </tbody>
-    </table>
-<?php endif ?>
-
-<div class="card mb-3">
-    <div class="card-body">
-        <h2 class="h4"><?= I18N::translate('Self-registration and acceptable use agreement') ?></h2>
-
-        <p>
-            <?= I18N::translate('This check distinguishes between the current global registration settings and proof that a specific user accepted the terms during self-registration.') ?>
-        </p>
-
-        <form method="post" class="mb-3">
-            <?= csrf_field() ?>
-
-            <fieldset class="row mb-3">
-                <legend class="col-form-label col-sm-4">
-                    <?= /* I18N: A configuration setting */ I18N::translate('Allow visitors to request a new user account') ?>
-                </legend>
-                <div class="col-sm-8">
-                    <?= view('components/radios-inline', [
-                        'name' => 'registrationEnabled',
-                        'options' => [I18N::translate('no'), I18N::translate('yes')],
-                        'selected' => $registrationConsentStatus['registrationEnabled'] ? 1 : 0,
-                    ]) ?>
-                    <div class="form-text">
-                        <?= I18N::translate('The new user will be asked to confirm their email address before the account is created.') ?>
-                        <?= I18N::translate('An administrator must approve the new user account and select an access level before the user can sign in.') ?>
-                    </div>
-                </div>
-            </fieldset>
-
-            <fieldset class="row mb-3">
-                <legend class="col-form-label col-sm-4">
-                    <?= /* I18N: A configuration setting */ I18N::translate('Show acceptable use agreement on “Request a new user account” page') ?>
-                </legend>
-                <div class="col-sm-8">
-                    <?= view('components/radios-inline', [
-                        'name' => 'cautionEnabled',
-                        'options' => [I18N::translate('no'), I18N::translate('yes')],
-                        'selected' => $registrationConsentStatus['cautionEnabled'] ? 1 : 0,
-                    ]) ?>
-                    <div class="form-text">
-                        <?= I18N::translate('This setting only affects the request-account page when self-registration is enabled.') ?>
-                    </div>
-                </div>
-            </fieldset>
-
-            <div class="row mb-3">
-                <div class="offset-sm-4 col-sm-8">
-                    <button class="btn btn-primary" type="submit" name="task" value="saveRegistrationSettings">
-                        <?= view('icons/save') ?>
-                        <?= I18N::translate('Save registration settings') ?>
-                    </button>
-                    <a class="btn btn-secondary" href="<?= e($siteRegistrationConfigLink) ?>">
-                        <?= I18N::translate('Open webtrees registration settings') ?>
-                    </a>
-                </div>
+<div class="row g-3 mb-3">
+    <div class="col-md-4">
+        <div class="border rounded p-3 h-100">
+            <div class="d-flex justify-content-between gap-2 align-items-start">
+                <h2 class="h6 mb-0"><?= I18N::translate('Inactive user accounts') ?></h2>
+                <span class="badge <?= e($inactive_badge) ?>"><?= $inactive_status ?></span>
             </div>
-        </form>
-
-        <dl class="row mb-0">
-            <dt class="col-sm-4"><?= I18N::translate('Per-user acceptance record') ?></dt>
-            <dd class="col-sm-8">
-                <?php if ($registrationConsentStatus['perUserConsentStored']) : ?>
-                    <span class="badge bg-success"><?= I18N::translate('available') ?></span>
-                <?php else : ?>
-                    <span class="badge bg-warning text-dark"><?= I18N::translate('not available') ?></span>
-                <?php endif ?>
-            </dd>
-        </dl>
-
-        <h3 class="h5 mt-3"><?= I18N::translate('Acceptable use agreement shown by webtrees') ?></h3>
-        <div class="border rounded p-3 wt-register-caution">
-            <?= $acceptableUseAgreementText ?>
+            <p class="small text-muted mb-0 mt-2">
+                <?= I18N::plural('%s overdue account', '%s overdue accounts', count($expiredAccounts), I18N::number(count($expiredAccounts))) ?>
+            </p>
         </div>
-
-        <?php if ($registrationConsentStatus['registrationEnabled'] && !$registrationConsentStatus['cautionEnabled']) : ?>
-            <div class="alert alert-warning mt-3 mb-0">
-                <?= I18N::translate('Self-registration is enabled, but the acceptable use agreement is not shown. New users can request an account without seeing this privacy-related notice.') ?>
+    </div>
+    <div class="col-md-4">
+        <div class="border rounded p-3 h-100">
+            <div class="d-flex justify-content-between gap-2 align-items-start">
+                <h2 class="h6 mb-0"><?= I18N::translate('Self-registration and acceptable use agreement') ?></h2>
+                <span class="badge <?= e($registration_badge) ?>"><?= $registration_status ?></span>
             </div>
-        <?php elseif (!$registrationConsentStatus['registrationEnabled']) : ?>
-            <div class="alert alert-info mt-3 mb-0">
-                <?= I18N::translate('Self-registration is disabled. The acceptable use agreement is therefore not part of the current registration workflow.') ?>
+            <p class="small text-muted mb-0 mt-2">
+                <?php if ($registrationConsentStatus['registrationEnabled']) : ?>
+                    <?= I18N::translate('Self-registration is enabled.') ?>
+                <?php else : ?>
+                    <?= I18N::translate('Self-registration is disabled.') ?>
+                <?php endif ?>
+            </p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="border rounded p-3 h-100">
+            <div class="d-flex justify-content-between gap-2 align-items-start">
+                <h2 class="h6 mb-0"><?= I18N::translate('Sensitive information') ?></h2>
+                <span class="badge <?= e($sensitive_badge) ?>"><?= $sensitive_status ?></span>
             </div>
-        <?php endif ?>
-
-        <?php if (!$registrationConsentStatus['perUserConsentStored']) : ?>
-            <div class="alert alert-info mt-3 mb-0">
-                <?= I18N::translate('webtrees currently shows the acceptable use agreement as notice text only. It does not store a separate, audit-proof acceptance record for each registered user.') ?>
-                <?= I18N::translate('For audit-proof documentation, webtrees would need to store the exact text, version, timestamp, and user account for each acceptance.') ?>
-            </div>
-        <?php endif ?>
+            <p class="small text-muted mb-0 mt-2">
+                <?php if ($protectionResult === []) : ?>
+                    <?= I18N::translate('No preview result is currently shown.') ?>
+                <?php else : ?>
+                    <?= I18N::plural('%s preview finding', '%s preview findings', count($protectionResult), I18N::number(count($protectionResult))) ?>
+                <?php endif ?>
+            </p>
+        </div>
     </div>
 </div>
 
-<div class="card mb-3">
-    <div class="card-body">
-        <h2 class="h4"><?= I18N::translate('Sensitive information') ?></h2>
-
-        <p>
-            <?= I18N::translate('Sensitive facts can be protected with RESN CONFIDENTIAL until the person has been dead for the configured number of years.') ?>
-        </p>
-
-        <form method="post" class="row gy-3">
-            <?= csrf_field() ?>
-
-            <div class="col-md-5">
-                <label class="form-label" for="protectionTree"><?= I18N::translate('Family tree') ?></label>
-                <?= view('components/select', [
-                    'id' => 'protectionTree',
-                    'name' => 'protectionTree',
-                    'options' => $treeOptions,
-                    'selected' => $selectedProtectionTree,
-                ]) ?>
-            </div>
-
-            <div class="col-md-3">
-                <label class="form-label" for="releaseYears"><?= I18N::translate('Release after death') ?></label>
-                <input class="form-control" id="releaseYears" name="releaseYears" type="number" min="0" max="150" value="<?= e((string) $releaseYears) ?>">
-                <div class="form-text">
-                    <?php if ($privacyPolicySettingsComplete) : ?>
-                        <?= I18N::translate('The default value was imported from the generated privacy policy.') ?>
-                    <?php else : ?>
-                        <?= I18N::translate('A local fallback value is used because the generated privacy policy settings are unavailable.') ?>
-                    <?php endif ?>
-                </div>
-            </div>
-
-            <div class="col-md-4 d-flex align-items-end gap-2">
-                <button class="btn btn-secondary" type="submit" name="task" value="preview">
-                    <?= I18N::translate('Preview') ?>
-                </button>
-                <button class="btn btn-primary" type="submit" name="task" value="apply">
-                    <?= I18N::translate('Apply changes') ?>
-                </button>
-            </div>
-        </form>
-
-        <?php if ($protectionSubmitted && $protectionResult === []) : ?>
-            <p class="mt-4 mb-0">
-                <?= I18N::translate('No matching sensitive facts were found in the selected tree.') ?>
-            </p>
-        <?php elseif ($protectionResult !== []) : ?>
-            <h3 class="h5 mt-4">
-                <?php if ($protectionApplied) : ?>
-                    <?= I18N::translate('Applied changes') ?>
+<div class="accordion mb-3" id="privacy-assistant-topics">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading-inactive-accounts">
+            <button class="accordion-button <?= $inactive_warning ? '' : 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-inactive-accounts" aria-expanded="<?= $inactive_warning ? 'true' : 'false' ?>" aria-controls="collapse-inactive-accounts">
+                <span class="me-2"><?= I18N::translate('Inactive user accounts') ?></span>
+                <span class="badge <?= e($inactive_badge) ?>"><?= $inactive_status ?></span>
+            </button>
+        </h2>
+        <div id="collapse-inactive-accounts" class="accordion-collapse collapse <?= $inactive_warning ? 'show' : '' ?>" aria-labelledby="heading-inactive-accounts">
+            <div class="accordion-body">
+                <?php if ($retentionYears === 0) : ?>
+                    <p>
+                        <?= I18N::translate('No retention period for inactive user accounts is currently configured. The assistant therefore does not report accounts as overdue.') ?>
+                    </p>
                 <?php else : ?>
-                    <?= I18N::translate('Preview result') ?>
+                    <p>
+                        <?= I18N::plural('The privacy policy currently states that inactive user accounts are deleted after %s year.', 'The privacy policy currently states that inactive user accounts are deleted after %s years.', $retentionYears, I18N::number($retentionYears)) ?>
+                    </p>
+                    <p>
+                        <?= I18N::plural('%s user account has reached or exceeded this retention period.', '%s user accounts have reached or exceeded this retention period.', count($expiredAccounts), I18N::number(count($expiredAccounts))) ?>
+                    </p>
                 <?php endif ?>
-            </h3>
 
-            <table class="table table-bordered table-sm wt-table-sensitive-information datatables d-none"
-                <?= view('lists/datatables-attributes') ?>
-                data-sorting="<?= e('[[ 4, "asc" ]]') ?>"
-            >
-                <thead>
-                    <tr>
-                        <th><?= I18N::translate('Individual') ?></th>
-                        <th><?= I18N::translate('Pattern') ?></th>
-                        <th><?= I18N::translate('Fact') ?></th>
-                        <th><?= I18N::translate('Death status') ?></th>
-                        <th><?= I18N::translate('Action') ?></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($protectionResult as $row) : ?>
-                        <tr>
-                            <td data-sort="<?= e(strip_tags($row['name'])) ?>">
-                                <a href="<?= e($row['url']) ?>"><?= $row['name'] ?></a>
-                                <?php if ($row['lifespan'] !== '') : ?>
-                                    <span class="text-muted"><?= e($row['lifespan']) ?></span>
-                                <?php endif ?>
-                            </td>
-                            <td data-sort="<?= e($row['pattern']) ?>"><?= e($row['pattern']) ?></td>
-                            <td><code><?= e($row['fact']) ?></code></td>
-                            <td><?= e($row['deathStatus']) ?></td>
-                            <td data-sort="<?= e($row['action']) ?>">
-                                <?php if ($row['action'] === 'add') : ?>
-                                    <?= $protectionApplied ? I18N::translate('RESN CONFIDENTIAL added') : I18N::translate('RESN CONFIDENTIAL would be added') ?>
-                                <?php elseif ($row['action'] === 'remove') : ?>
-                                    <?= $protectionApplied ? I18N::translate('RESN CONFIDENTIAL removed') : I18N::translate('RESN CONFIDENTIAL would be removed') ?>
-                                <?php else : ?>
-                                    <?= I18N::translate('unchanged') ?>
-                                <?php endif ?>
-                            </td>
-                        </tr>
-                    <?php endforeach ?>
-                </tbody>
-            </table>
-        <?php endif ?>
+                <dl class="row mb-0">
+                    <dt class="col-sm-3"><?= I18N::translate('Retention setting') ?></dt>
+                    <dd class="col-sm-9">
+                        <?php if ($retentionYears === 0) : ?>
+                            <?= I18N::translate('never') ?>
+                        <?php else : ?>
+                            <?= I18N::plural('%s year', '%s years', $retentionYears, I18N::number($retentionYears)) ?>
+                        <?php endif ?>
+                        <a class="ms-2" href="<?= e($legalNoticeConfigLink) ?>"><?= I18N::translate('Change in legal notice module') ?></a>
+                    </dd>
+
+                    <dt class="col-sm-3"><?= I18N::translate('Last scan') ?></dt>
+                    <dd class="col-sm-9"><?= $lastScan === '' ? I18N::translate('not yet') : e($lastScan) ?></dd>
+
+                    <dt class="col-sm-3"><?= I18N::translate('Last scan result') ?></dt>
+                    <dd class="col-sm-9">
+                        <?= I18N::plural('%s overdue account', '%s overdue accounts', $lastExpiredCount, I18N::number($lastExpiredCount)) ?>
+                        <?php if ($lastRetentionYears !== $retentionYears) : ?>
+                            <span class="text-muted">
+                                <?= I18N::translate('The retention setting has changed since the last scan.') ?>
+                            </span>
+                        <?php endif ?>
+                    </dd>
+                </dl>
+
+                <?php if ($expiredAccounts !== []) : ?>
+                    <table class="table table-bordered table-sm wt-table-menu mt-3">
+                        <thead>
+                            <tr>
+                                <th><?= I18N::translate('User name') ?></th>
+                                <th><?= MoreI18N::xlate('Real name') ?></th>
+                                <th><?= I18N::translate('E-mail') ?></th>
+                                <th><?= I18N::translate('Registered') ?></th>
+                                <th><?= I18N::translate('Last login') ?></th>
+                                <th class="text-end"><?= I18N::translate('Inactive days') ?></th>
+                                <th><?= MoreI18N::xlate('Notes') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($expiredAccounts as $account) : ?>
+                                <tr>
+                                    <td><?= e($account['userName']) ?></td>
+                                    <td><?= e($account['realName']) ?></td>
+                                    <td><?= e($account['email']) ?></td>
+                                    <td><?= e($account['registered']) ?></td>
+                                    <td><?= e($account['lastActivity']) ?></td>
+                                    <td class="text-end"><?= I18N::number($account['inactiveDays']) ?></td>
+                                    <td>
+                                        <?php if ($account['isAdmin']) : ?>
+                                            <span class="badge bg-warning text-dark"><?= I18N::translate('administrator') ?></span>
+                                        <?php endif ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach ?>
+                        </tbody>
+                    </table>
+                <?php endif ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading-registration">
+            <button class="accordion-button <?= $registration_warning ? '' : 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-registration" aria-expanded="<?= $registration_warning ? 'true' : 'false' ?>" aria-controls="collapse-registration">
+                <span class="me-2"><?= I18N::translate('Self-registration and acceptable use agreement') ?></span>
+                <span class="badge <?= e($registration_badge) ?>"><?= $registration_status ?></span>
+            </button>
+        </h2>
+        <div id="collapse-registration" class="accordion-collapse collapse <?= $registration_warning ? 'show' : '' ?>" aria-labelledby="heading-registration">
+            <div class="accordion-body">
+                <p>
+                    <?= I18N::translate('This check distinguishes between the current global registration settings and proof that a specific user accepted the terms during self-registration.') ?>
+                </p>
+
+                <form method="post" class="mb-3">
+                    <?= csrf_field() ?>
+
+                    <fieldset class="row mb-3">
+                        <legend class="col-form-label col-sm-4">
+                            <?= /* I18N: A configuration setting */ I18N::translate('Allow visitors to request a new user account') ?>
+                        </legend>
+                        <div class="col-sm-8">
+                            <?= view('components/radios-inline', [
+                                'name' => 'registrationEnabled',
+                                'options' => [I18N::translate('no'), I18N::translate('yes')],
+                                'selected' => $registrationConsentStatus['registrationEnabled'] ? 1 : 0,
+                            ]) ?>
+                            <div class="form-text">
+                                <?= I18N::translate('The new user will be asked to confirm their email address before the account is created.') ?>
+                                <?= I18N::translate('An administrator must approve the new user account and select an access level before the user can sign in.') ?>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="row mb-3">
+                        <legend class="col-form-label col-sm-4">
+                            <?= /* I18N: A configuration setting */ I18N::translate('Show acceptable use agreement on “Request a new user account” page') ?>
+                        </legend>
+                        <div class="col-sm-8">
+                            <?= view('components/radios-inline', [
+                                'name' => 'cautionEnabled',
+                                'options' => [I18N::translate('no'), I18N::translate('yes')],
+                                'selected' => $registrationConsentStatus['cautionEnabled'] ? 1 : 0,
+                            ]) ?>
+                            <div class="form-text">
+                                <?= I18N::translate('This setting only affects the request-account page when self-registration is enabled.') ?>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="row mb-3">
+                        <div class="offset-sm-4 col-sm-8">
+                            <button class="btn btn-primary" type="submit" name="task" value="saveRegistrationSettings">
+                                <?= view('icons/save') ?>
+                                <?= I18N::translate('Save registration settings') ?>
+                            </button>
+                            <a class="btn btn-secondary" href="<?= e($siteRegistrationConfigLink) ?>">
+                                <?= I18N::translate('Open webtrees registration settings') ?>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+
+                <dl class="row mb-0">
+                    <dt class="col-sm-4"><?= I18N::translate('Per-user acceptance record') ?></dt>
+                    <dd class="col-sm-8">
+                        <?php if ($registrationConsentStatus['perUserConsentStored']) : ?>
+                            <span class="badge bg-success"><?= I18N::translate('available') ?></span>
+                        <?php else : ?>
+                            <span class="badge bg-warning text-dark"><?= I18N::translate('not available') ?></span>
+                        <?php endif ?>
+                    </dd>
+                </dl>
+
+                <h3 class="h5 mt-3"><?= I18N::translate('Acceptable use agreement shown by webtrees') ?></h3>
+                <div class="border rounded p-3 wt-register-caution">
+                    <?= $acceptableUseAgreementText ?>
+                </div>
+
+                <?php if ($registrationConsentStatus['registrationEnabled'] && !$registrationConsentStatus['cautionEnabled']) : ?>
+                    <div class="alert alert-warning mt-3 mb-0">
+                        <?= I18N::translate('Self-registration is enabled, but the acceptable use agreement is not shown. New users can request an account without seeing this privacy-related notice.') ?>
+                    </div>
+                <?php elseif (!$registrationConsentStatus['registrationEnabled']) : ?>
+                    <div class="alert alert-info mt-3 mb-0">
+                        <?= I18N::translate('Self-registration is disabled. The acceptable use agreement is therefore not part of the current registration workflow.') ?>
+                    </div>
+                <?php endif ?>
+
+                <?php if (!$registrationConsentStatus['perUserConsentStored']) : ?>
+                    <div class="alert alert-info mt-3 mb-0">
+                        <?= I18N::translate('webtrees currently shows the acceptable use agreement as notice text only. It does not store a separate, audit-proof acceptance record for each registered user.') ?>
+                        <?= I18N::translate('For audit-proof documentation, webtrees would need to store the exact text, version, timestamp, and user account for each acceptance.') ?>
+                    </div>
+                <?php endif ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading-sensitive-information">
+            <button class="accordion-button <?= $sensitive_warning ? '' : 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-sensitive-information" aria-expanded="<?= $sensitive_warning ? 'true' : 'false' ?>" aria-controls="collapse-sensitive-information">
+                <span class="me-2"><?= I18N::translate('Sensitive information') ?></span>
+                <span class="badge <?= e($sensitive_badge) ?>"><?= $sensitive_status ?></span>
+            </button>
+        </h2>
+        <div id="collapse-sensitive-information" class="accordion-collapse collapse <?= $sensitive_warning ? 'show' : '' ?>" aria-labelledby="heading-sensitive-information">
+            <div class="accordion-body">
+                <p>
+                    <?= I18N::translate('Sensitive facts can be protected with RESN CONFIDENTIAL until the person has been dead for the configured number of years.') ?>
+                </p>
+
+                <form method="post" class="row gy-3">
+                    <?= csrf_field() ?>
+
+                    <div class="col-md-5">
+                        <label class="form-label" for="protectionTree"><?= I18N::translate('Family tree') ?></label>
+                        <?= view('components/select', [
+                            'id' => 'protectionTree',
+                            'name' => 'protectionTree',
+                            'options' => $treeOptions,
+                            'selected' => $selectedProtectionTree,
+                        ]) ?>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label" for="releaseYears"><?= I18N::translate('Release after death') ?></label>
+                        <input class="form-control" id="releaseYears" name="releaseYears" type="number" min="0" max="150" value="<?= e((string) $releaseYears) ?>">
+                        <div class="form-text">
+                            <?php if ($privacyPolicySettingsComplete) : ?>
+                                <?= I18N::translate('The default value was imported from the generated privacy policy.') ?>
+                            <?php else : ?>
+                                <?= I18N::translate('A local fallback value is used because the generated privacy policy settings are unavailable.') ?>
+                            <?php endif ?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 d-flex align-items-end gap-2">
+                        <button class="btn btn-secondary" type="submit" name="task" value="preview">
+                            <?= I18N::translate('Preview') ?>
+                        </button>
+                        <button class="btn btn-primary" type="submit" name="task" value="apply">
+                            <?= I18N::translate('Apply changes') ?>
+                        </button>
+                    </div>
+                </form>
+
+                <?php if ($protectionSubmitted && $protectionResult === []) : ?>
+                    <p class="mt-4 mb-0">
+                        <?= I18N::translate('No matching sensitive facts were found in the selected tree.') ?>
+                    </p>
+                <?php elseif ($protectionResult !== []) : ?>
+                    <h3 class="h5 mt-4">
+                        <?php if ($protectionApplied) : ?>
+                            <?= I18N::translate('Applied changes') ?>
+                        <?php else : ?>
+                            <?= I18N::translate('Preview result') ?>
+                        <?php endif ?>
+                    </h3>
+
+                    <table class="table table-bordered table-sm wt-table-sensitive-information datatables d-none"
+                        <?= view('lists/datatables-attributes') ?>
+                        data-sorting="<?= e('[[ 4, "asc" ]]') ?>"
+                    >
+                        <thead>
+                            <tr>
+                                <th><?= I18N::translate('Individual') ?></th>
+                                <th><?= I18N::translate('Pattern') ?></th>
+                                <th><?= I18N::translate('Fact') ?></th>
+                                <th><?= I18N::translate('Death status') ?></th>
+                                <th><?= I18N::translate('Action') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($protectionResult as $row) : ?>
+                                <tr>
+                                    <td data-sort="<?= e(strip_tags($row['name'])) ?>">
+                                        <a href="<?= e($row['url']) ?>"><?= $row['name'] ?></a>
+                                        <?php if ($row['lifespan'] !== '') : ?>
+                                            <span class="text-muted"><?= e($row['lifespan']) ?></span>
+                                        <?php endif ?>
+                                    </td>
+                                    <td data-sort="<?= e($row['pattern']) ?>"><?= e($row['pattern']) ?></td>
+                                    <td><code><?= e($row['fact']) ?></code></td>
+                                    <td><?= e($row['deathStatus']) ?></td>
+                                    <td data-sort="<?= e($row['action']) ?>">
+                                        <?php if ($row['action'] === 'add') : ?>
+                                            <?= $protectionApplied ? I18N::translate('RESN CONFIDENTIAL added') : I18N::translate('RESN CONFIDENTIAL would be added') ?>
+                                        <?php elseif ($row['action'] === 'remove') : ?>
+                                            <?= $protectionApplied ? I18N::translate('RESN CONFIDENTIAL removed') : I18N::translate('RESN CONFIDENTIAL would be removed') ?>
+                                        <?php else : ?>
+                                            <?= I18N::translate('unchanged') ?>
+                                        <?php endif ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach ?>
+                        </tbody>
+                    </table>
+                <?php endif ?>
+            </div>
+        </div>
     </div>
 </div>
 

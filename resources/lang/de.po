@@ -27,6 +27,18 @@ msgstr "Überwacht Datenschutz- und Sicherheitsaufgaben für diese webtrees-Webs
 msgid "Inactive user accounts"
 msgstr "Inaktive Benutzerkonten"
 
+msgid "Action needed"
+msgstr "Handlungsbedarf"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Warning"
+msgstr "Warnung"
+
+msgid "Review needed"
+msgstr "Prüfung erforderlich"
+
 msgid "The values from the generated privacy policy could not be imported. The assistant is using local fallback values."
 msgstr "Die Werte aus der erzeugten Datenschutzerklärung konnten nicht importiert werden. Der Assistent verwendet lokale Ersatzwerte."
 
@@ -141,6 +153,12 @@ msgstr "Die Selbstregistrierung ist aktiviert, aber die Nutzungsbedingungen werd
 msgid "Self-registration is disabled. The acceptable use agreement is therefore not part of the current registration workflow."
 msgstr "Die Selbstregistrierung ist deaktiviert. Die Nutzungsbedingungen sind daher nicht Teil des aktuellen Registrierungsablaufs."
 
+msgid "Self-registration is enabled."
+msgstr "Die Selbstregistrierung ist aktiviert."
+
+msgid "Self-registration is disabled."
+msgstr "Die Selbstregistrierung ist deaktiviert."
+
 msgid "webtrees currently shows the acceptable use agreement as notice text only. It does not store a separate, audit-proof acceptance record for each registered user."
 msgstr "webtrees zeigt die Nutzungsbedingungen derzeit nur als Hinweistext an. Ein separater, revisionssicherer Zustimmungsnachweis wird für registrierte Nutzer nicht gespeichert."
 
@@ -149,6 +167,15 @@ msgstr "Für eine revisionssichere Dokumentation müsste webtrees zu jeder Zusti
 
 msgid "Sensitive information"
 msgstr "Besonders schutzwürdige Informationen"
+
+msgid "No preview result is currently shown."
+msgstr "Derzeit wird kein Vorschauergebnis angezeigt."
+
+#, php-format
+msgid "%s preview finding"
+msgid_plural "%s preview findings"
+msgstr[0] "%s Vorschau-Treffer"
+msgstr[1] "%s Vorschau-Treffer"
 
 msgid "Sensitive facts can be protected with RESN CONFIDENTIAL until the person has been dead for the configured number of years."
 msgstr "Besonders sensible Fakten können mit RESN CONFIDENTIAL geschützt werden, bis die Person seit der konfigurierten Anzahl von Jahren verstorben ist."
