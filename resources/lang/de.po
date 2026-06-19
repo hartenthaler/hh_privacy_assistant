@@ -99,6 +99,9 @@ msgstr "Administrator"
 msgid "Self-registration and acceptable use agreement"
 msgstr "Selbstregistrierung und Nutzungsbedingungen"
 
+msgid "The registration settings have been updated."
+msgstr "Die Registrierungseinstellungen wurden aktualisiert."
+
 msgid "This check distinguishes between the current global registration settings and proof that a specific user accepted the terms during self-registration."
 msgstr "Diese Prüfung unterscheidet zwischen den aktuellen globalen Registrierungseinstellungen und dem Nachweis, dass ein bestimmter Nutzer die Bedingungen bei der Selbstregistrierung akzeptiert hat."
 
@@ -111,6 +114,15 @@ msgstr "Nutzungsbedingungen werden bei der Selbstregistrierung angezeigt"
 msgid "Change in webtrees sign-in and registration settings"
 msgstr "In den webtrees-Einstellungen zu Anmeldung und Registrierung ändern"
 
+msgid "This setting only affects the request-account page when self-registration is enabled."
+msgstr "Diese Einstellung wirkt sich nur auf die Seite zur Kontoanforderung aus, wenn die Selbstregistrierung aktiviert ist."
+
+msgid "Save registration settings"
+msgstr "Registrierungseinstellungen speichern"
+
+msgid "Open webtrees registration settings"
+msgstr "webtrees-Registrierungseinstellungen öffnen"
+
 msgid "Per-user acceptance record"
 msgstr "Nutzerbezogener Zustimmungsnachweis"
 
@@ -119,6 +131,9 @@ msgstr "verfügbar"
 
 msgid "not available"
 msgstr "nicht verfügbar"
+
+msgid "Acceptable use agreement shown by webtrees"
+msgstr "Von webtrees angezeigte Nutzungsvereinbarung"
 
 msgid "Self-registration is enabled, but the acceptable use agreement is not shown. New users can request an account without seeing this privacy-related notice."
 msgstr "Die Selbstregistrierung ist aktiviert, aber die Nutzungsbedingungen werden nicht angezeigt. Neue Nutzer können ein Konto anfordern, ohne diesen datenschutzbezogenen Hinweis zu sehen."

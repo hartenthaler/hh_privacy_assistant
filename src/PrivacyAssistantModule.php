@@ -63,6 +63,7 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
     private const LEGAL_NOTICE_MODULE = '_hh_legal_notice_';
     private const LEGAL_NOTICE_RETENTION_SETTING = 'inactiveUserYears';
     private const LEGAL_NOTICE_SENSITIVE_SETTING = 'sensitiveDataYears';
+    private const ACCEPTABLE_USE_AGREEMENT_TEXT = '<p>Notice: By completing and submitting this form, you agree:</p><ul><li>to protect the privacy of living individuals listed on our site;</li><li>and in the text box below, to explain to whom you are related, or to provide us with information on someone who should be listed on our website.</li></ul>';
     private const PREF_LAST_SCAN = 'lastScan';
     private const PREF_LAST_COUNT = 'lastExpiredCount';
     private const PREF_LAST_YEARS = 'lastRetentionYears';
@@ -261,6 +262,12 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
     {
         $params = $submitted ? (array) $request->getParsedBody() : $request->getQueryParams();
         $privacy_policy_settings = $this->privacyPolicySettings();
+        $registration_settings_saved = $submitted && (string) ($params['task'] ?? '') === 'saveRegistrationSettings';
+
+        if ($registration_settings_saved) {
+            $this->saveRegistrationSettings($params);
+            $params = [];
+        }
 
         if (!$privacy_policy_settings['complete']) {
             FlashMessages::addMessage(I18N::translate('The values from the generated privacy policy could not be imported. The assistant is using local fallback values.'), 'warning');
@@ -272,7 +279,7 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
         $protection_result = [];
         $applied = false;
 
-        if ($submitted && $selected_tree_name !== '') {
+        if ($submitted && !$registration_settings_saved && $selected_tree_name !== '') {
             $apply = (string) ($params['task'] ?? '') === 'apply';
             $tree = $this->treeByName($selected_tree_name);
 
@@ -292,6 +299,7 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
             'expiredAccounts' => $this->expiredUserAccounts(),
             'legalNoticeConfigLink' => route('module', ['module' => self::LEGAL_NOTICE_MODULE, 'action' => 'Admin']),
             'registrationConsentStatus' => $this->registrationConsentStatus(),
+            'acceptableUseAgreementText' => I18N::translate(self::ACCEPTABLE_USE_AGREEMENT_TEXT),
             'siteRegistrationConfigLink' => route(SiteRegistrationPage::class),
             'treeOptions' => $trees,
             'selectedProtectionTree' => $selected_tree_name,
@@ -299,8 +307,22 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
             'privacyPolicySettingsComplete' => $privacy_policy_settings['complete'],
             'protectionResult' => $protection_result,
             'protectionApplied' => $applied,
-            'protectionSubmitted' => $submitted,
+            'protectionSubmitted' => $submitted && !$registration_settings_saved,
         ]);
+    }
+
+    /**
+     * @param array<string,mixed> $params
+     */
+    private function saveRegistrationSettings(array $params): void
+    {
+        $registration_enabled = (string) ($params['registrationEnabled'] ?? '0') === '1';
+        $caution_enabled = (string) ($params['cautionEnabled'] ?? '0') === '1';
+
+        Site::setPreference('USE_REGISTRATION_MODULE', $registration_enabled ? '1' : '0');
+        Site::setPreference('SHOW_REGISTER_CAUTION', $caution_enabled ? '1' : '0');
+
+        FlashMessages::addMessage(I18N::translate('The registration settings have been updated.'), 'success');
     }
 
     private function runScheduledRetentionScan(): void
