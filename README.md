@@ -137,6 +137,8 @@ Some labels that already exist in webtrees core translations are reused from web
 
 Developed by Hermann Hartenthaler with support from OpenAI Codex and JetBrains PhpStorm.
 
+The original idea for protecting particularly sensitive genealogical data goes back to Lars1963.
+
 <a name="privacy"></a>
 ## Privacy, telemetry, and tracking
 
