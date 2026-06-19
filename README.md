@@ -37,6 +37,7 @@ It currently focuses on two areas:
 
 * monitoring inactive user accounts against the retention period documented in the privacy policy
 * reviewing sensitive genealogical information and applying or removing GEDCOM privacy restrictions where appropriate
+* checking whether self-registration and the acceptable use agreement are configured consistently
 
 The module is a monitoring and decision-support tool. It does **not** delete user accounts automatically.
 GEDCOM changes for sensitive information are shown as a preview and are applied only after confirmation.
@@ -79,6 +80,17 @@ an existing `2 RESN CONFIDENTIAL` on matching facts is removed.
 
 The action can be previewed before changes are applied.
 For causes of death, GEDCOM allows the restriction only on the `DEAT` fact, not on the `CAUS` substructure alone.
+
+### Self-registration and Acceptable Use Agreement
+
+The assistant checks the global webtrees settings for self-registration:
+
+* whether visitors can request a new user account
+* whether the acceptable use agreement is shown on the "Request a new user account" page
+
+If self-registration is enabled but the acceptable use agreement is not shown, the assistant displays a warning.
+It also states that webtrees currently shows this agreement as notice text only and does not store a separate,
+audit-proof acceptance record for each registered user.
 
 <a name="requirements"></a>
 ## Requirements
