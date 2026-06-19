@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-06-13 00:00+0200\n"
 "PO-Revision-Date: \n"
-"Last-Translator: TheDutchJewel\n"
+"Last-Translator: TheDutchJewel <thedutchjewel@gmail.com>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -26,6 +26,21 @@ msgstr "Houdt privacy- en beveiligingstaken voor deze webtrees-website in de gat
 
 msgid "Inactive user accounts"
 msgstr "Inactieve gebruikersaccounts"
+
+msgid "Action needed"
+msgstr "Actie vereist"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Warning"
+msgstr "Waarschuwing"
+
+msgid "Review needed"
+msgstr "Controle vereist"
+
+msgid "The values from the generated privacy policy could not be imported. The assistant is using local fallback values."
+msgstr "De waarden uit de gegenereerde privacyverklaring konden niet worden geïmporteerd. De assistent gebruikt lokale vervangende waarden."
 
 msgid "No retention period for inactive user accounts is currently configured. The assistant therefore does not report accounts as overdue."
 msgstr "Er is momenteel geen bewaartermijn voor inactieve gebruikersaccounts ingesteld. De assistent meldt daarom geen accounts als verlopen."
@@ -88,10 +103,208 @@ msgid "Last login"
 msgstr "Laatste aanmelding"
 
 msgid "Inactive days"
-msgstr "Dagen inactief"
+msgstr "Inactieve dagen"
 
 msgid "administrator"
 msgstr "beheerder"
 
-msgid "This first version monitors the configured retention period and reports overdue accounts. It does not delete accounts automatically."
-msgstr "Deze eerste versie bewaakt de ingestelde bewaartermijn en meldt verlopen accounts. Accounts worden niet automatisch verwijderd."
+msgid "Self-registration and acceptable use agreement"
+msgstr "Zelfregistratie en gebruiksvoorwaarden"
+
+msgid "The registration settings have been updated."
+msgstr "De registratie-instellingen zijn bijgewerkt."
+
+msgid "This check distinguishes between the current global registration settings and proof that a specific user accepted the terms during self-registration."
+msgstr "Deze controle maakt onderscheid tussen de huidige globale registratie-instellingen en het bewijs dat een specifieke gebruiker de voorwaarden tijdens de zelfregistratie heeft geaccepteerd."
+
+msgid "Visitors can request a new user account"
+msgstr "Bezoekers kunnen een nieuw gebruikersaccount aanvragen"
+
+msgid "Acceptable use agreement is shown during self-registration"
+msgstr "Gebruiksvoorwaarden worden tijdens de zelfregistratie weergegeven"
+
+msgid "Change in webtrees sign-in and registration settings"
+msgstr "Wijziging in de webtrees-instellingen voor aanmelden en registratie"
+
+msgid "This setting only affects the request-account page when self-registration is enabled."
+msgstr "Deze instelling heeft alleen invloed op de pagina voor het aanvragen van een account wanneer zelfregistratie is ingeschakeld."
+
+msgid "Save registration settings"
+msgstr "Registratie-instellingen opslaan"
+
+msgid "Open webtrees registration settings"
+msgstr "webtrees-registratie-instellingen openen"
+
+msgid "Per-user acceptance record"
+msgstr "Gebruikersgebonden toestemmingsregistratie"
+
+msgid "available"
+msgstr "beschikbaar"
+
+msgid "not available"
+msgstr "niet beschikbaar"
+
+msgid "Acceptable use agreement shown by webtrees"
+msgstr "Door webtrees weergegeven gebruiksvoorwaarden"
+
+msgid "Self-registration is enabled, but the acceptable use agreement is not shown. New users can request an account without seeing this privacy-related notice."
+msgstr "Zelfregistratie is ingeschakeld, maar de gebruiksvoorwaarden worden niet weergegeven. Nieuwe gebruikers kunnen een account aanvragen zonder deze privacygerelateerde melding te zien."
+
+msgid "Self-registration is disabled. The acceptable use agreement is therefore not part of the current registration workflow."
+msgstr "Zelfregistratie is uitgeschakeld. De gebruiksvoorwaarden maken daarom geen deel uit van de huidige registratieprocedure."
+
+msgid "Self-registration is enabled."
+msgstr "Zelfregistratie is ingeschakeld."
+
+msgid "Self-registration is disabled."
+msgstr "Zelfregistratie is uitgeschakeld."
+
+msgid "webtrees currently shows the acceptable use agreement as notice text only. It does not store a separate, audit-proof acceptance record for each registered user."
+msgstr "webtrees toont de gebruiksvoorwaarden momenteel alleen als meldingstekst. Het slaat geen afzonderlijk, auditbestendig toestemmingsbewijs per geregistreerde gebruiker op."
+
+msgid "For audit-proof documentation, webtrees would need to store the exact text, version, timestamp, and user account for each acceptance."
+msgstr "Voor auditbestendige documentatie zou webtrees voor elke toestemming de exacte tekst, de versie, de tijdstempel en het gebruikersaccount moeten opslaan."
+
+msgid "Sensitive information"
+msgstr "Gevoelige informatie"
+
+msgid "No preview result is currently shown."
+msgstr "Er wordt momenteel geen voorbeeldresultaat weergegeven."
+
+#, php-format
+msgid "%s preview finding"
+msgid_plural "%s preview findings"
+msgstr[0] "%s voorbeeldresultaat"
+msgstr[1] "%s voorbeeldresultaten"
+
+msgid "Sensitive facts can be protected with RESN CONFIDENTIAL until the person has been dead for the configured number of years."
+msgstr "Bijzonder gevoelige feiten kunnen met RESN CONFIDENTIAL worden beschermd totdat de persoon het geconfigureerde aantal jaren overleden is."
+
+msgid "Family tree"
+msgstr "Stamboom"
+
+msgid "Release after death"
+msgstr "Vrijgave na overlijden"
+
+msgid "The default value was imported from the generated privacy policy."
+msgstr "De standaardwaarde is geïmporteerd uit de gegenereerde privacyverklaring."
+
+msgid "A local fallback value is used because the generated privacy policy settings are unavailable."
+msgstr "Er wordt een lokale vervangende waarde gebruikt omdat de instellingen van de gegenereerde privacyverklaring niet beschikbaar zijn."
+
+msgid "Preview"
+msgstr "Voorbeeld"
+
+msgid "Apply changes"
+msgstr "Wijzigingen toepassen"
+
+msgid "Applied changes"
+msgstr "Toegepaste wijzigingen"
+
+msgid "Preview result"
+msgstr "Voorbeeldresultaat"
+
+msgid "Individual"
+msgstr "Persoon"
+
+msgid "Pattern"
+msgstr "Patroon"
+
+msgid "Fact"
+msgstr "Feit"
+
+msgid "Death status"
+msgstr "Overlijdensstatus"
+
+msgid "Action"
+msgstr "Actie"
+
+msgid "RESN CONFIDENTIAL added"
+msgstr "RESN CONFIDENTIAL toegevoegd"
+
+msgid "RESN CONFIDENTIAL would be added"
+msgstr "RESN CONFIDENTIAL zou worden toegevoegd"
+
+msgid "RESN CONFIDENTIAL removed"
+msgstr "RESN CONFIDENTIAL verwijderd"
+
+msgid "RESN CONFIDENTIAL would be removed"
+msgstr "RESN CONFIDENTIAL zou worden verwijderd"
+
+msgid "unchanged"
+msgstr "ongewijzigd"
+
+msgid "No matching sensitive facts were found in the selected tree."
+msgstr "In de geselecteerde stamboom zijn geen overeenkomende bijzonder gevoelige feiten gevonden."
+
+msgid "Ethnic origin"
+msgstr "Etnische herkomst"
+
+msgid "Physical description"
+msgstr "Fysieke beschrijving"
+
+msgid "Political party membership"
+msgstr "Lidmaatschap van een politieke partij"
+
+msgid "Political affiliation"
+msgstr "Politieke betrokkenheid"
+
+msgid "Religious affiliation"
+msgstr "Religieuze overtuiging"
+
+msgid "Religious event"
+msgstr "Religieuze gebeurtenis"
+
+msgid "Baptism or church ceremony"
+msgstr "Doop of kerkelijke ceremonie"
+
+msgid "Trade union membership"
+msgstr "Lidmaatschap van een vakbond"
+
+msgid "Y-DNA haplogroup"
+msgstr "Y-DNA-haplogroep"
+
+msgid "mtDNA haplogroup"
+msgstr "mtDNA-haplogroep"
+
+msgid "DNA test"
+msgstr "DNA-test"
+
+msgid "Cause of death"
+msgstr "Doodsoorzaak"
+
+msgid "Arrest"
+msgstr "Arrestatie"
+
+msgid "Indictment"
+msgstr "Aanklacht"
+
+msgid "Criminal conviction"
+msgstr "Strafrechtelijke veroordeling"
+
+msgid "Criminal offence"
+msgstr "Strafbaar feit"
+
+msgid "Imprisonment"
+msgstr "Gevangenisstraf"
+
+msgid "Pardon"
+msgstr "Gratie"
+
+msgid "Deportation"
+msgstr "Uitzetting"
+
+#, php-format
+msgid "dead for at least %s year"
+msgid_plural "dead for at least %s years"
+msgstr[0] "minstens %s jaar overleden"
+msgstr[1] "minstens %s jaar overleden"
+
+#, php-format
+msgid "not known to be dead for at least %s year"
+msgid_plural "not known to be dead for at least %s years"
+msgstr[0] "niet aantoonbaar al ten minste %s jaar overleden"
+msgstr[1] "niet aantoonbaar al ten minste %s jaar overleden"
+
+msgid "The assistant reports privacy and security findings for administrative review. It does not delete accounts automatically, and GEDCOM facts are changed only after confirmation."
+msgstr "De assistent rapporteert bevindingen op het gebied van privacy en beveiliging voor administratieve beoordeling. Accounts worden niet automatisch verwijderd en GEDCOM-feiten worden alleen na bevestiging gewijzigd."
