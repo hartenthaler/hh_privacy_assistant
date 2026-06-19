@@ -97,12 +97,13 @@ The automated test approach is described in [`docs/automated-test-concept.md`](d
 
 ### Self-registration and Acceptable Use Agreement
 
-The assistant checks the global webtrees settings for self-registration:
+The assistant checks and can update the global webtrees settings for self-registration:
 
 * whether visitors can request a new user account
 * whether the acceptable use agreement is shown on the "Request a new user account" page
 
 If self-registration is enabled but the acceptable use agreement is not shown, the assistant displays a warning.
+The assistant also shows the actual acceptable-use notice text from webtrees so administrators can review what new users see.
 It also states that webtrees currently shows this agreement as notice text only and does not store a separate,
 audit-proof acceptance record for each registered user.
 

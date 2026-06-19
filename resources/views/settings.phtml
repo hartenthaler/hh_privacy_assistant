@@ -15,6 +15,7 @@ use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
  * @var list<array{id:int,userName:string,realName:string,email:string,registered:string,lastActivity:string,inactiveDays:int,isAdmin:bool}> $expiredAccounts
  * @var string $legalNoticeConfigLink
  * @var array{registrationEnabled:bool,cautionEnabled:bool,perUserConsentStored:bool} $registrationConsentStatus
+ * @var string $acceptableUseAgreementText
  * @var string $siteRegistrationConfigLink
  * @var array<string,string> $treeOptions
  * @var string $selectedProtectionTree
@@ -114,26 +115,56 @@ use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
             <?= I18N::translate('This check distinguishes between the current global registration settings and proof that a specific user accepted the terms during self-registration.') ?>
         </p>
 
+        <form method="post" class="mb-3">
+            <?= csrf_field() ?>
+
+            <fieldset class="row mb-3">
+                <legend class="col-form-label col-sm-4">
+                    <?= /* I18N: A configuration setting */ I18N::translate('Allow visitors to request a new user account') ?>
+                </legend>
+                <div class="col-sm-8">
+                    <?= view('components/radios-inline', [
+                        'name' => 'registrationEnabled',
+                        'options' => [I18N::translate('no'), I18N::translate('yes')],
+                        'selected' => $registrationConsentStatus['registrationEnabled'] ? 1 : 0,
+                    ]) ?>
+                    <div class="form-text">
+                        <?= I18N::translate('The new user will be asked to confirm their email address before the account is created.') ?>
+                        <?= I18N::translate('An administrator must approve the new user account and select an access level before the user can sign in.') ?>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="row mb-3">
+                <legend class="col-form-label col-sm-4">
+                    <?= /* I18N: A configuration setting */ I18N::translate('Show acceptable use agreement on “Request a new user account” page') ?>
+                </legend>
+                <div class="col-sm-8">
+                    <?= view('components/radios-inline', [
+                        'name' => 'cautionEnabled',
+                        'options' => [I18N::translate('no'), I18N::translate('yes')],
+                        'selected' => $registrationConsentStatus['cautionEnabled'] ? 1 : 0,
+                    ]) ?>
+                    <div class="form-text">
+                        <?= I18N::translate('This setting only affects the request-account page when self-registration is enabled.') ?>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="row mb-3">
+                <div class="offset-sm-4 col-sm-8">
+                    <button class="btn btn-primary" type="submit" name="task" value="saveRegistrationSettings">
+                        <?= view('icons/save') ?>
+                        <?= I18N::translate('Save registration settings') ?>
+                    </button>
+                    <a class="btn btn-secondary" href="<?= e($siteRegistrationConfigLink) ?>">
+                        <?= I18N::translate('Open webtrees registration settings') ?>
+                    </a>
+                </div>
+            </div>
+        </form>
+
         <dl class="row mb-0">
-            <dt class="col-sm-4"><?= I18N::translate('Visitors can request a new user account') ?></dt>
-            <dd class="col-sm-8">
-                <?php if ($registrationConsentStatus['registrationEnabled']) : ?>
-                    <span class="badge bg-success"><?= I18N::translate('yes') ?></span>
-                <?php else : ?>
-                    <span class="badge bg-secondary"><?= I18N::translate('no') ?></span>
-                <?php endif ?>
-            </dd>
-
-            <dt class="col-sm-4"><?= I18N::translate('Acceptable use agreement is shown during self-registration') ?></dt>
-            <dd class="col-sm-8">
-                <?php if ($registrationConsentStatus['cautionEnabled']) : ?>
-                    <span class="badge bg-success"><?= I18N::translate('yes') ?></span>
-                <?php else : ?>
-                    <span class="badge bg-warning text-dark"><?= I18N::translate('no') ?></span>
-                <?php endif ?>
-                <a class="ms-2" href="<?= e($siteRegistrationConfigLink) ?>"><?= I18N::translate('Change in webtrees sign-in and registration settings') ?></a>
-            </dd>
-
             <dt class="col-sm-4"><?= I18N::translate('Per-user acceptance record') ?></dt>
             <dd class="col-sm-8">
                 <?php if ($registrationConsentStatus['perUserConsentStored']) : ?>
@@ -143,6 +174,11 @@ use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
                 <?php endif ?>
             </dd>
         </dl>
+
+        <h3 class="h5 mt-3"><?= I18N::translate('Acceptable use agreement shown by webtrees') ?></h3>
+        <div class="border rounded p-3 wt-register-caution">
+            <?= $acceptableUseAgreementText ?>
+        </div>
 
         <?php if ($registrationConsentStatus['registrationEnabled'] && !$registrationConsentStatus['cautionEnabled']) : ?>
             <div class="alert alert-warning mt-3 mb-0">
