@@ -299,6 +299,7 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
             'expiredAccounts' => $this->expiredUserAccounts(),
             'legalNoticeConfigLink' => route('module', ['module' => self::LEGAL_NOTICE_MODULE, 'action' => 'Admin']),
             'registrationConsentStatus' => $this->registrationConsentStatus(),
+            'registrationSettingsSubmitted' => $registration_settings_saved,
             'acceptableUseAgreementText' => I18N::translate(self::ACCEPTABLE_USE_AGREEMENT_TEXT),
             'siteRegistrationConfigLink' => route(SiteRegistrationPage::class),
             'treeOptions' => $trees,
