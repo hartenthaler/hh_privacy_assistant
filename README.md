@@ -38,6 +38,8 @@ It currently focuses on these areas:
 * monitoring inactive user accounts against the retention period documented in the privacy policy
 * reviewing sensitive genealogical information and applying or removing GEDCOM privacy restrictions where appropriate
 * checking whether self-registration and the acceptable use agreement are configured consistently
+* checking which privacy-policy provider is active without deriving the applicable law from the visitor’s language
+* documenting the webtrees Core version check and its external data transfer
 
 The module is a monitoring and decision-support tool. It does **not** delete user accounts automatically.
 GEDCOM changes for sensitive information are shown as a preview and are applied only after confirmation.
@@ -107,6 +109,31 @@ The assistant also shows the actual acceptable-use notice text from webtrees so 
 It also states that webtrees currently shows this agreement as notice text only and does not store a separate,
 audit-proof acceptance record for each registered user.
 
+### Privacy-policy Provider
+
+The assistant treats the webtrees Core privacy-policy module and `hh_legal_notice` as alternative providers.
+It reports when neither provider is active and asks for review when both are active, because duplicate links or
+conflicting statements may result.
+
+The applicable legal jurisdiction is an administrative decision. It is deliberately kept separate from the
+visitor’s display language and from the inventory of functions and external services that are actually enabled.
+
+The announced configurable Core jurisdictions and per-analytics consent settings are not part of the currently
+released webtrees version. The assistant therefore does not report those settings as missing. The checks planned
+for the next webtrees release are specified in
+[`docs/core-privacy-diagnostics.md`](docs/core-privacy-diagnostics.md).
+
+### webtrees Core Version Check
+
+The assistant reports the current state of the daily webtrees Core version check without initiating another check.
+It shows the target server, the last recorded attempt, whether a persistent site identifier exists, and whether the
+last attempt failed. The identifier itself is not displayed.
+
+webtrees 2.2.5 performs the automatic check before custom modules are booted. Consequently, neither a timestamp
+written in this module’s `boot()` method nor a service replacement registered there can reliably suppress every
+request. The technical analysis and server-side mitigation are documented in
+[`docs/webtrees-core-update-check.md`](docs/webtrees-core-update-check.md).
+
 <a name="requirements"></a>
 ## Requirements
 
@@ -146,6 +173,10 @@ This module does not collect analytics data, does not track users, and does not 
 
 When the **webtrees** control panel is opened, the module checks whether a newer version is available.
 This version check requests only the module's public latest-version URL on `github.com`.
+
+Independently of the module update check, webtrees Core can contact `dev.webtrees.net` to check for a new webtrees
+version. That Core request is not initiated by this module. The assistant only reads and reports the locally stored
+status of the Core check.
 
 The module reads existing webtrees user-account data and GEDCOM data locally in the webtrees installation.
 It does not transmit this data to external services.

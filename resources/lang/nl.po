@@ -308,3 +308,72 @@ msgstr[1] "niet aantoonbaar al ten minste %s jaar overleden"
 
 msgid "The assistant reports privacy and security findings for administrative review. It does not delete accounts automatically, and GEDCOM facts are changed only after confirmation."
 msgstr "De assistent rapporteert bevindingen op het gebied van privacy en beveiliging voor administratieve beoordeling. Accounts worden niet automatisch verwijderd en GEDCOM-feiten worden alleen na bevestiging gewijzigd."
+
+msgid "Privacy policy configuration"
+msgstr ""
+
+msgid "Core privacy policy and hh_legal_notice are evaluated as alternative providers."
+msgstr ""
+
+msgid "webtrees version check"
+msgstr ""
+
+msgid "Information"
+msgstr ""
+
+msgid "The assistant reports the current Core behavior without changing it."
+msgstr ""
+
+msgid "The applicable legal jurisdiction is selected by the administrator. A visitor’s display language only determines the language of the resulting text and must not be used to infer the applicable law."
+msgstr ""
+
+msgid "Privacy policy provider"
+msgstr ""
+
+msgid "Installed"
+msgstr ""
+
+msgid "Active"
+msgstr ""
+
+msgid "webtrees Core privacy policy"
+msgstr ""
+
+msgid "No privacy policy provider is active. Enable either the webtrees Core privacy policy or hh_legal_notice."
+msgstr ""
+
+msgid "Both privacy policy providers are active. Review the configuration to avoid duplicate links or conflicting statements."
+msgstr ""
+
+msgid "This released webtrees version does not yet expose the announced configurable Core jurisdiction and per-analytics consent settings. The assistant deliberately does not report them as missing."
+msgstr ""
+
+msgid "This diagnostic reviews technical configuration and identifiable gaps. It does not guarantee legal completeness and does not replace legal advice."
+msgstr ""
+
+msgid "On full page requests, webtrees Core checks at most once every 24 hours whether a newer webtrees version is available."
+msgstr ""
+
+msgid "Installed webtrees version"
+msgstr ""
+
+msgid "Update server"
+msgstr ""
+
+msgid "Last Core version check"
+msgstr ""
+
+msgid "Persistent site identifier created"
+msgstr ""
+
+msgid "Last check reported an error"
+msgstr ""
+
+msgid "Native opt-out available"
+msgstr ""
+
+msgid "The request contains the webtrees version, PHP version, database driver, and a persistent site identifier. The identifier itself is not displayed here."
+msgstr ""
+
+msgid "The current webtrees request pipeline performs this check before custom modules are booted. A module-level timestamp or service override therefore cannot reliably prevent every request. Blocking dev.webtrees.net in the server firewall or DNS is the robust non-Core mitigation, but it also disables automatic and manual Core update checks."
+msgstr ""

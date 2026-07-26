@@ -308,3 +308,72 @@ msgstr[1] "nicht nachweislich seit mindestens %s Jahren verstorben"
 
 msgid "The assistant reports privacy and security findings for administrative review. It does not delete accounts automatically, and GEDCOM facts are changed only after confirmation."
 msgstr "Der Assistent meldet Datenschutz- und Sicherheitsbefunde zur administrativen Prüfung. Er löscht keine Konten automatisch, und GEDCOM-Fakten werden nur nach Bestätigung geändert."
+
+msgid "Privacy policy configuration"
+msgstr "Konfiguration der Datenschutzerklärung"
+
+msgid "Core privacy policy and hh_legal_notice are evaluated as alternative providers."
+msgstr "Die Core-Datenschutzerklärung und hh_legal_notice werden als alternative Anbieter bewertet."
+
+msgid "webtrees version check"
+msgstr "webtrees-Versionsprüfung"
+
+msgid "Information"
+msgstr "Information"
+
+msgid "The assistant reports the current Core behavior without changing it."
+msgstr "Der Assistent zeigt das aktuelle Core-Verhalten an, ohne es zu verändern."
+
+msgid "The applicable legal jurisdiction is selected by the administrator. A visitor’s display language only determines the language of the resulting text and must not be used to infer the applicable law."
+msgstr "Der anwendbare Rechtsraum wird vom Administrator ausgewählt. Die Anzeigesprache eines Besuchers bestimmt nur die Sprache des ausgegebenen Textes und darf nicht zur Ableitung des anwendbaren Rechts verwendet werden."
+
+msgid "Privacy policy provider"
+msgstr "Anbieter der Datenschutzerklärung"
+
+msgid "Installed"
+msgstr "Installiert"
+
+msgid "Active"
+msgstr "Aktiv"
+
+msgid "webtrees Core privacy policy"
+msgstr "webtrees-Core-Datenschutzerklärung"
+
+msgid "No privacy policy provider is active. Enable either the webtrees Core privacy policy or hh_legal_notice."
+msgstr "Es ist kein Anbieter einer Datenschutzerklärung aktiv. Aktivieren Sie entweder die webtrees-Core-Datenschutzerklärung oder hh_legal_notice."
+
+msgid "Both privacy policy providers are active. Review the configuration to avoid duplicate links or conflicting statements."
+msgstr "Beide Anbieter einer Datenschutzerklärung sind aktiv. Prüfen Sie die Konfiguration, um doppelte Links oder widersprüchliche Aussagen zu vermeiden."
+
+msgid "This released webtrees version does not yet expose the announced configurable Core jurisdiction and per-analytics consent settings. The assistant deliberately does not report them as missing."
+msgstr "Diese veröffentlichte webtrees-Version stellt die angekündigten konfigurierbaren Core-Einstellungen für Rechtsraum und Analytics-Einwilligungen noch nicht bereit. Der Assistent meldet sie deshalb bewusst nicht als fehlend."
+
+msgid "This diagnostic reviews technical configuration and identifiable gaps. It does not guarantee legal completeness and does not replace legal advice."
+msgstr "Diese Diagnose prüft die technische Konfiguration und erkennbare Lücken. Sie garantiert keine rechtliche Vollständigkeit und ersetzt keine Rechtsberatung."
+
+msgid "On full page requests, webtrees Core checks at most once every 24 hours whether a newer webtrees version is available."
+msgstr "Bei vollständigen Seitenaufrufen prüft der webtrees-Core höchstens einmal alle 24 Stunden, ob eine neuere webtrees-Version verfügbar ist."
+
+msgid "Installed webtrees version"
+msgstr "Installierte webtrees-Version"
+
+msgid "Update server"
+msgstr "Update-Server"
+
+msgid "Last Core version check"
+msgstr "Letzte Core-Versionsprüfung"
+
+msgid "Persistent site identifier created"
+msgstr "Persistente Website-Kennung erzeugt"
+
+msgid "Last check reported an error"
+msgstr "Letzte Prüfung meldete einen Fehler"
+
+msgid "Native opt-out available"
+msgstr "Native Deaktivierung verfügbar"
+
+msgid "The request contains the webtrees version, PHP version, database driver, and a persistent site identifier. The identifier itself is not displayed here."
+msgstr "Die Anfrage enthält die webtrees-Version, PHP-Version, den Datenbanktreiber und eine persistente Website-Kennung. Die Kennung selbst wird hier nicht angezeigt."
+
+msgid "The current webtrees request pipeline performs this check before custom modules are booted. A module-level timestamp or service override therefore cannot reliably prevent every request. Blocking dev.webtrees.net in the server firewall or DNS is the robust non-Core mitigation, but it also disables automatic and manual Core update checks."
+msgstr "Die aktuelle webtrees-Anfrageverarbeitung führt diese Prüfung aus, bevor Erweiterungsmodule initialisiert werden. Ein Zeitstempel oder Service-Ersatz auf Modulebene kann deshalb nicht zuverlässig jede Anfrage verhindern. Das Sperren von dev.webtrees.net in der Server-Firewall oder im DNS ist die robuste Lösung ohne Core-Anpassung, deaktiviert aber auch automatische und manuelle Core-Update-Prüfungen."
