@@ -352,7 +352,7 @@ msgid "This diagnostic reviews technical configuration and identifiable gaps. It
 msgstr "Deze diagnose controleert de technische configuratie en herkenbare tekortkomingen. Zij garandeert geen juridische volledigheid en vervangt geen juridisch advies."
 
 msgid "On full page requests, webtrees Core checks at most once every 24 hours whether a newer webtrees version is available."
-msgstr "Bij volledige pagina-aanvragen controleert webtrees hoogstens eenmaal per 24 uur of er een nieuwere webtrees-versie beschikbaar is."
+msgstr "Bij normale pagina-aanvragen van een browser controleert webtrees hoogstens eenmaal per 24 uur of er een nieuwere webtrees-versie beschikbaar is."
 
 msgid "Installed webtrees version"
 msgstr "Geïnstalleerde webtrees-versie"
