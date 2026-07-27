@@ -133,7 +133,7 @@ msgid "Save registration settings"
 msgstr "Registratie-instellingen opslaan"
 
 msgid "Open webtrees registration settings"
-msgstr "webtrees-registratie-instellingen openen"
+msgstr "Open webtrees-registratie-instellingen"
 
 msgid "Per-user acceptance record"
 msgstr "Gebruikersgebonden toestemmingsregistratie"
@@ -310,70 +310,70 @@ msgid "The assistant reports privacy and security findings for administrative re
 msgstr "De assistent rapporteert bevindingen op het gebied van privacy en beveiliging voor administratieve beoordeling. Accounts worden niet automatisch verwijderd en GEDCOM-feiten worden alleen na bevestiging gewijzigd."
 
 msgid "Privacy policy configuration"
-msgstr ""
+msgstr "Configuratie van de privacyverklaring"
 
 msgid "Core privacy policy and hh_legal_notice are evaluated as alternative providers."
-msgstr ""
+msgstr "De standaardprivacyverklaring van webtrees en hh_legal_notice worden als alternatieve aanbieders beschouwd."
 
 msgid "webtrees version check"
-msgstr ""
+msgstr "Controle van de webtrees-versie"
 
 msgid "Information"
-msgstr ""
+msgstr "Informatie"
 
 msgid "The assistant reports the current Core behavior without changing it."
-msgstr ""
+msgstr "De assistent toont het huidige standaardgedrag van webtrees zonder dit te wijzigen."
 
 msgid "The applicable legal jurisdiction is selected by the administrator. A visitor’s display language only determines the language of the resulting text and must not be used to infer the applicable law."
-msgstr ""
+msgstr "Het toepasselijke rechtsgebied wordt door de beheerder geselecteerd. De weergavetaal van een bezoeker bepaalt alleen de taal van de weergegeven tekst en mag niet worden gebruikt om het toepasselijke recht af te leiden."
 
 msgid "Privacy policy provider"
-msgstr ""
+msgstr "Aanbieder van de privacyverklaring"
 
 msgid "Installed"
-msgstr ""
+msgstr "Geïnstalleerd"
 
 msgid "Active"
-msgstr ""
+msgstr "Actief"
 
 msgid "webtrees Core privacy policy"
-msgstr ""
+msgstr "Standaardprivacyverklaring van webtrees"
 
 msgid "No privacy policy provider is active. Enable either the webtrees Core privacy policy or hh_legal_notice."
-msgstr ""
+msgstr "Er is geen aanbieder van een privacyverklaring actief. Activeer de standaardprivacyverklaring van webtrees of hh_legal_notice."
 
 msgid "Both privacy policy providers are active. Review the configuration to avoid duplicate links or conflicting statements."
-msgstr ""
+msgstr "Zowel de standaardprivacyverklaring van webtrees als hh_legal_notice zijn actief. Controleer de configuratie om dubbele koppelingen of tegenstrijdige verklaringen te voorkomen."
 
 msgid "This released webtrees version does not yet expose the announced configurable Core jurisdiction and per-analytics consent settings. The assistant deliberately does not report them as missing."
-msgstr ""
+msgstr "In deze uitgebrachte webtrees-versie zijn de aangekondigde configureerbare instellingen voor rechtsgebied en toestemming per analysetool nog niet beschikbaar. De assistent meldt deze daarom bewust niet als ontbrekend."
 
 msgid "This diagnostic reviews technical configuration and identifiable gaps. It does not guarantee legal completeness and does not replace legal advice."
-msgstr ""
+msgstr "Deze diagnose controleert de technische configuratie en herkenbare tekortkomingen. Zij garandeert geen juridische volledigheid en vervangt geen juridisch advies."
 
 msgid "On full page requests, webtrees Core checks at most once every 24 hours whether a newer webtrees version is available."
-msgstr ""
+msgstr "Bij normale pagina-aanvragen van een browser controleert webtrees hoogstens eenmaal per 24 uur of er een nieuwere webtrees-versie beschikbaar is."
 
 msgid "Installed webtrees version"
-msgstr ""
+msgstr "Geïnstalleerde webtrees-versie"
 
 msgid "Update server"
-msgstr ""
+msgstr "Updateserver"
 
 msgid "Last Core version check"
-msgstr ""
+msgstr "Laatste versiecontrole"
 
 msgid "Persistent site identifier created"
-msgstr ""
+msgstr "Permanente website-identificatie aangemaakt"
 
 msgid "Last check reported an error"
-msgstr ""
+msgstr "Bij de laatste controle is een fout gemeld"
 
 msgid "Native opt-out available"
-msgstr ""
+msgstr "Ingebouwde afmeldmogelijkheid beschikbaar"
 
 msgid "The request contains the webtrees version, PHP version, database driver, and a persistent site identifier. The identifier itself is not displayed here."
-msgstr ""
+msgstr "Het verzoek bevat de webtrees-versie, de PHP-versie, het databasestuurprogramma en een permanente website-identificatie. De identificatie zelf wordt hier niet weergegeven."
 
 msgid "The current webtrees request pipeline performs this check before custom modules are booted. A module-level timestamp or service override therefore cannot reliably prevent every request. Blocking dev.webtrees.net in the server firewall or DNS is the robust non-Core mitigation, but it also disables automatic and manual Core update checks."
-msgstr ""
+msgstr "De huidige verzoekverwerking van webtrees voert deze controle uit voordat aangepaste modules worden geïnitialiseerd. Een tijdstempel of servicevervanging op moduleniveau kan daarom niet betrouwbaar elke aanvraag voorkomen. Het blokkeren van dev.webtrees.net in de serverfirewall of DNS is een robuuste oplossing zonder aanpassing van webtrees zelf, maar schakelt ook automatische en handmatige updatecontroles uit."
