@@ -4,6 +4,8 @@ All notable changes to `hh_privacy_assistant` are documented in this file.
 
 ## Next release
 
+## 2.2.6.2 - 2026-07-27
+
 ### Added
 
 - Diagnose which privacy-policy provider is installed and active, treating the webtrees Core privacy policy and
