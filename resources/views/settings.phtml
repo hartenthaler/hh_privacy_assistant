@@ -24,6 +24,8 @@ use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
  * @var string $selectedProtectionTree
  * @var int $releaseYears
  * @var bool $privacyPolicySettingsComplete
+ * @var array{legalNoticeInstalled:bool,legalNoticeEnabled:bool,corePrivacyPolicyInstalled:bool,corePrivacyPolicyEnabled:bool,providerAvailable:bool,multipleProvidersEnabled:bool,extendedCoreChecksAvailable:bool} $privacyPolicyProviderStatus
+ * @var array{endpoint:string,webtreesVersion:string,lastCheck:string,siteIdentifierPresent:bool,lastCheckFailed:bool,nativeOptOutAvailable:bool} $upgradeCheckStatus
  * @var list<array{xref:string,name:string,url:string,lifespan:string,pattern:string,fact:string,deathStatus:string,action:string,changed:bool}> $protectionResult
  * @var bool $protectionApplied
  * @var bool $protectionSubmitted
@@ -32,16 +34,19 @@ use Hartenthaler\Webtrees\Module\PrivacyAssistant\Internationalization\MoreI18N;
 $inactive_warning = $expiredAccounts !== [] || $lastRetentionYears !== $retentionYears;
 $registration_warning = $registrationConsentStatus['registrationEnabled'] && !$registrationConsentStatus['cautionEnabled'];
 $sensitive_warning = !$privacyPolicySettingsComplete || $protectionResult !== [];
+$privacy_provider_warning = !$privacyPolicyProviderStatus['providerAvailable'] || $privacyPolicyProviderStatus['multipleProvidersEnabled'];
 $registration_open = $registration_warning || $registrationSettingsSubmitted;
 $sensitive_open = $sensitive_warning || $protectionSubmitted;
 
 $inactive_status = $inactive_warning ? I18N::translate('Action needed') : I18N::translate('OK');
 $registration_status = $registration_warning ? I18N::translate('Warning') : I18N::translate('OK');
 $sensitive_status = $sensitive_warning ? I18N::translate('Review needed') : I18N::translate('OK');
+$privacy_provider_status = $privacy_provider_warning ? I18N::translate('Review needed') : I18N::translate('OK');
 
 $inactive_badge = $inactive_warning ? 'bg-warning text-dark' : 'bg-success';
 $registration_badge = $registration_warning ? 'bg-warning text-dark' : 'bg-success';
 $sensitive_badge = $sensitive_warning ? 'bg-warning text-dark' : 'bg-success';
+$privacy_provider_badge = $privacy_provider_warning ? 'bg-warning text-dark' : 'bg-success';
 ?>
 
 <?= view('components/breadcrumbs', ['links' => [
@@ -97,7 +102,132 @@ $sensitive_badge = $sensitive_warning ? 'bg-warning text-dark' : 'bg-success';
     </div>
 </div>
 
+<div class="row g-3 mb-3">
+    <div class="col-md-6">
+        <div class="border rounded p-3 h-100">
+            <div class="d-flex justify-content-between gap-2 align-items-start">
+                <h2 class="h6 mb-0"><?= I18N::translate('Privacy policy configuration') ?></h2>
+                <span class="badge <?= e($privacy_provider_badge) ?>"><?= $privacy_provider_status ?></span>
+            </div>
+            <p class="small text-muted mb-0 mt-2">
+                <?= I18N::translate('Core privacy policy and hh_legal_notice are evaluated as alternative providers.') ?>
+            </p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="border rounded p-3 h-100">
+            <div class="d-flex justify-content-between gap-2 align-items-start">
+                <h2 class="h6 mb-0"><?= I18N::translate('webtrees version check') ?></h2>
+                <span class="badge bg-info text-dark"><?= I18N::translate('Information') ?></span>
+            </div>
+            <p class="small text-muted mb-0 mt-2">
+                <?= I18N::translate('The assistant reports the current Core behavior without changing it.') ?>
+            </p>
+        </div>
+    </div>
+</div>
+
 <div class="accordion mb-3" id="privacy-assistant-topics">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading-privacy-policy-configuration">
+            <button class="accordion-button <?= $privacy_provider_warning ? '' : 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-privacy-policy-configuration" aria-expanded="<?= $privacy_provider_warning ? 'true' : 'false' ?>" aria-controls="collapse-privacy-policy-configuration">
+                <span class="me-2"><?= I18N::translate('Privacy policy configuration') ?></span>
+                <span class="badge <?= e($privacy_provider_badge) ?>"><?= $privacy_provider_status ?></span>
+            </button>
+        </h2>
+        <div id="collapse-privacy-policy-configuration" class="accordion-collapse collapse <?= $privacy_provider_warning ? 'show' : '' ?>" aria-labelledby="heading-privacy-policy-configuration">
+            <div class="accordion-body">
+                <p>
+                    <?= I18N::translate('The applicable legal jurisdiction is selected by the administrator. A visitor’s display language only determines the language of the resulting text and must not be used to infer the applicable law.') ?>
+                </p>
+
+                <table class="table table-bordered table-sm mb-3">
+                    <thead>
+                        <tr>
+                            <th><?= I18N::translate('Privacy policy provider') ?></th>
+                            <th><?= I18N::translate('Installed') ?></th>
+                            <th><?= I18N::translate('Active') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>hh_legal_notice</td>
+                            <td><?= $privacyPolicyProviderStatus['legalNoticeInstalled'] ? I18N::translate('yes') : I18N::translate('no') ?></td>
+                            <td><?= $privacyPolicyProviderStatus['legalNoticeEnabled'] ? I18N::translate('yes') : I18N::translate('no') ?></td>
+                        </tr>
+                        <tr>
+                            <td><?= I18N::translate('webtrees Core privacy policy') ?></td>
+                            <td><?= $privacyPolicyProviderStatus['corePrivacyPolicyInstalled'] ? I18N::translate('yes') : I18N::translate('no') ?></td>
+                            <td><?= $privacyPolicyProviderStatus['corePrivacyPolicyEnabled'] ? I18N::translate('yes') : I18N::translate('no') ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <?php if (!$privacyPolicyProviderStatus['providerAvailable']) : ?>
+                    <div class="alert alert-warning">
+                        <?= I18N::translate('No privacy policy provider is active. Enable either the webtrees Core privacy policy or hh_legal_notice.') ?>
+                    </div>
+                <?php elseif ($privacyPolicyProviderStatus['multipleProvidersEnabled']) : ?>
+                    <div class="alert alert-warning">
+                        <?= I18N::translate('Both privacy policy providers are active. Review the configuration to avoid duplicate links or conflicting statements.') ?>
+                    </div>
+                <?php endif ?>
+
+                <?php if (!$privacyPolicyProviderStatus['extendedCoreChecksAvailable']) : ?>
+                    <div class="alert alert-info mb-3">
+                        <?= I18N::translate('This released webtrees version does not yet expose the announced configurable Core jurisdiction and per-analytics consent settings. The assistant deliberately does not report them as missing.') ?>
+                    </div>
+                <?php endif ?>
+
+                <p class="small text-muted mb-0">
+                    <?= I18N::translate('This diagnostic reviews technical configuration and identifiable gaps. It does not guarantee legal completeness and does not replace legal advice.') ?>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading-webtrees-version-check">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-webtrees-version-check" aria-expanded="false" aria-controls="collapse-webtrees-version-check">
+                <span class="me-2"><?= I18N::translate('webtrees version check') ?></span>
+                <span class="badge bg-info text-dark"><?= I18N::translate('Information') ?></span>
+            </button>
+        </h2>
+        <div id="collapse-webtrees-version-check" class="accordion-collapse collapse" aria-labelledby="heading-webtrees-version-check">
+            <div class="accordion-body">
+                <p>
+                    <?= I18N::translate('On full page requests, webtrees Core checks at most once every 24 hours whether a newer webtrees version is available.') ?>
+                </p>
+
+                <dl class="row">
+                    <dt class="col-sm-4"><?= I18N::translate('Installed webtrees version') ?></dt>
+                    <dd class="col-sm-8"><?= e($upgradeCheckStatus['webtreesVersion']) ?></dd>
+
+                    <dt class="col-sm-4"><?= I18N::translate('Update server') ?></dt>
+                    <dd class="col-sm-8"><code><?= e($upgradeCheckStatus['endpoint']) ?></code></dd>
+
+                    <dt class="col-sm-4"><?= I18N::translate('Last Core version check') ?></dt>
+                    <dd class="col-sm-8"><?= $upgradeCheckStatus['lastCheck'] === '' ? I18N::translate('not yet') : e($upgradeCheckStatus['lastCheck']) ?></dd>
+
+                    <dt class="col-sm-4"><?= I18N::translate('Persistent site identifier created') ?></dt>
+                    <dd class="col-sm-8"><?= $upgradeCheckStatus['siteIdentifierPresent'] ? I18N::translate('yes') : I18N::translate('no') ?></dd>
+
+                    <dt class="col-sm-4"><?= I18N::translate('Last check reported an error') ?></dt>
+                    <dd class="col-sm-8"><?= $upgradeCheckStatus['lastCheckFailed'] ? I18N::translate('yes') : I18N::translate('no') ?></dd>
+
+                    <dt class="col-sm-4"><?= I18N::translate('Native opt-out available') ?></dt>
+                    <dd class="col-sm-8"><?= $upgradeCheckStatus['nativeOptOutAvailable'] ? I18N::translate('yes') : I18N::translate('no') ?></dd>
+                </dl>
+
+                <p><?= I18N::translate('The request contains the webtrees version, PHP version, database driver, and a persistent site identifier. The identifier itself is not displayed here.') ?></p>
+
+                <div class="alert alert-warning mb-0">
+                    <?= I18N::translate('The current webtrees request pipeline performs this check before custom modules are booted. A module-level timestamp or service override therefore cannot reliably prevent every request. Blocking dev.webtrees.net in the server firewall or DNS is the robust non-Core mitigation, but it also disables automatic and manual Core update checks.') ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="accordion-item">
         <h2 class="accordion-header" id="heading-inactive-accounts">
             <button class="accordion-button <?= $inactive_warning ? '' : 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-inactive-accounts" aria-expanded="<?= $inactive_warning ? 'true' : 'false' ?>" aria-controls="collapse-inactive-accounts">

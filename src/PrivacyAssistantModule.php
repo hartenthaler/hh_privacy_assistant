@@ -19,6 +19,7 @@ use Fisharebest\Webtrees\Module\ModuleCustomTrait;
 use Fisharebest\Webtrees\Module\ModuleGlobalInterface;
 use Fisharebest\Webtrees\Module\ModuleGlobalTrait;
 use Fisharebest\Webtrees\Registry;
+use Fisharebest\Webtrees\Services\ModuleService;
 use Fisharebest\Webtrees\Services\TreeService;
 use Fisharebest\Webtrees\Services\UserService;
 use Fisharebest\Webtrees\Site;
@@ -56,11 +57,13 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
     use ModuleGlobalTrait;
 
     private const MODULE_TITLE = 'Privacy and Security Assistant';
-    private const VERSION = '2.2.6.1';
+    private const VERSION = '2.2.6.2';
     private const LATEST_VERSION_URL = 'https://raw.githubusercontent.com/hartenthaler/hh_privacy_assistant/main/latest-version.txt';
     private const SUPPORT_URL = 'https://github.com/hartenthaler/hh_privacy_assistant';
 
     private const LEGAL_NOTICE_MODULE = '_hh_legal_notice_';
+    private const CORE_PRIVACY_POLICY_MODULE = 'privacy-policy';
+    private const CORE_UPGRADE_URL = 'https://dev.webtrees.net/build/latest-version.txt';
     private const LEGAL_NOTICE_RETENTION_SETTING = 'inactiveUserYears';
     private const LEGAL_NOTICE_SENSITIVE_SETTING = 'sensitiveDataYears';
     private const ACCEPTABLE_USE_AGREEMENT_TEXT = '<p>Notice: By completing and submitting this form, you agree:</p><ul><li>to protect the privacy of living individuals listed on our site;</li><li>and in the text box below, to explain to whom you are related, or to provide us with information on someone who should be listed on our website.</li></ul>';
@@ -169,11 +172,13 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
 
     private UserService $userService;
     private TreeService $treeService;
+    private ModuleService $moduleService;
 
     public function __construct()
     {
         $this->userService = new UserService();
         $this->treeService = Registry::container()->get(TreeService::class);
+        $this->moduleService = Registry::container()->get(ModuleService::class);
     }
 
     public function title(): string
@@ -262,6 +267,8 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
     {
         $params = $submitted ? (array) $request->getParsedBody() : $request->getQueryParams();
         $privacy_policy_settings = $this->privacyPolicySettings();
+        $privacy_policy_provider_status = $this->privacyPolicyProviderStatus();
+        $upgrade_check_status = $this->upgradeCheckStatus();
         $registration_settings_saved = $submitted && (string) ($params['task'] ?? '') === 'saveRegistrationSettings';
 
         if ($registration_settings_saved) {
@@ -306,6 +313,8 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
             'selectedProtectionTree' => $selected_tree_name,
             'releaseYears' => $release_years,
             'privacyPolicySettingsComplete' => $privacy_policy_settings['complete'],
+            'privacyPolicyProviderStatus' => $privacy_policy_provider_status,
+            'upgradeCheckStatus' => $upgrade_check_status,
             'protectionResult' => $protection_result,
             'protectionApplied' => $applied,
             'protectionSubmitted' => $submitted && !$registration_settings_saved,
@@ -372,14 +381,71 @@ final class PrivacyAssistantModule extends AbstractModule implements ModuleCusto
 
     private function legalNoticeModuleAvailable(): bool
     {
-        return DB::table('module')
-            ->where(function ($query): void {
-                $query
-                    ->where('module_name', '=', self::LEGAL_NOTICE_MODULE)
-                    ->orWhere('module_name', 'like', '%legal_notice%');
-            })
-            ->where('status', '=', 'enabled')
-            ->exists();
+        return $this->moduleInstallationStatus(self::LEGAL_NOTICE_MODULE)['enabled'];
+    }
+
+    /**
+     * @return array{
+     *     legalNoticeInstalled:bool,
+     *     legalNoticeEnabled:bool,
+     *     corePrivacyPolicyInstalled:bool,
+     *     corePrivacyPolicyEnabled:bool,
+     *     providerAvailable:bool,
+     *     multipleProvidersEnabled:bool,
+     *     extendedCoreChecksAvailable:bool
+     * }
+     */
+    private function privacyPolicyProviderStatus(): array
+    {
+        $legal_notice = $this->moduleInstallationStatus(self::LEGAL_NOTICE_MODULE);
+        $core_privacy_policy = $this->moduleInstallationStatus(self::CORE_PRIVACY_POLICY_MODULE);
+
+        return [
+            'legalNoticeInstalled' => $legal_notice['installed'],
+            'legalNoticeEnabled' => $legal_notice['enabled'],
+            'corePrivacyPolicyInstalled' => $core_privacy_policy['installed'],
+            'corePrivacyPolicyEnabled' => $core_privacy_policy['enabled'],
+            'providerAvailable' => $legal_notice['enabled'] || $core_privacy_policy['enabled'],
+            'multipleProvidersEnabled' => $legal_notice['enabled'] && $core_privacy_policy['enabled'],
+            // The current webtrees release exposes no stable capability contract for the announced
+            // jurisdiction and per-analytics consent settings. Enable checks only after a release.
+            'extendedCoreChecksAvailable' => false,
+        ];
+    }
+
+    /**
+     * @return array{installed:bool,enabled:bool}
+     */
+    private function moduleInstallationStatus(string $module_name): array
+    {
+        $module = $this->moduleService->findByName($module_name, true);
+
+        return [
+            'installed' => $module !== null,
+            'enabled' => $module?->isEnabled() ?? false,
+        ];
+    }
+
+    /**
+     * @return array{
+     *     endpoint:string,
+     *     webtreesVersion:string,
+     *     lastCheck:string,
+     *     siteIdentifierPresent:bool,
+     *     lastCheckFailed:bool,
+     *     nativeOptOutAvailable:bool
+     * }
+     */
+    private function upgradeCheckStatus(): array
+    {
+        return [
+            'endpoint' => self::CORE_UPGRADE_URL,
+            'webtreesVersion' => Webtrees::VERSION,
+            'lastCheck' => $this->formattedTimestamp((int) Site::getPreference('LATEST_WT_VERSION_TIMESTAMP')),
+            'siteIdentifierPresent' => Site::getPreference('SITE_UUID') !== '',
+            'lastCheckFailed' => Site::getPreference('LATEST_WT_VERSION_ERROR') !== '',
+            'nativeOptOutAvailable' => false,
+        ];
     }
 
     private function legalNoticeSetting(string $setting_name): string|null
