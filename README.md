@@ -6,9 +6,11 @@
 
 ![Latest Release](https://img.shields.io/github/v/release/hartenthaler/hh_privacy_assistant)
 
+![Total downloads](https://img.shields.io/github/downloads/hartenthaler/hh_privacy_assistant/total)
+
 This [webtrees](https://www.webtrees.net) module helps administrators monitor privacy and security tasks on a webtrees site.
 
-Current module version: **2.2.6.1**.
+Current module version: **2.2.6.2**.
 
 > [!IMPORTANT]
 > This module does not provide legal advice.
@@ -23,6 +25,7 @@ This README contains the following main sections:
 * [Requirements](#requirements)
 * [Installation](#installation)
 * [Translation](#translation)
+* [Changelog](CHANGELOG.md)
 * [Credits](#credits)
 * [Privacy, telemetry, and tracking](#privacy)
 * [Support](#support)
@@ -134,6 +137,9 @@ written in this module’s `boot()` method nor a service replacement registered 
 request. The technical analysis and server-side mitigation are documented in
 [`docs/webtrees-core-update-check.md`](docs/webtrees-core-update-check.md).
 
+The corresponding Core feature request is
+[fisharebest/webtrees#5433](https://github.com/fisharebest/webtrees/issues/5433).
+
 <a name="requirements"></a>
 ## Requirements
 
@@ -205,4 +211,5 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program. If not, see <http://www.gnu.org/licenses/>.
+along with this program. The complete license text is available in
+[`LICENSE.md`](LICENSE.md). If not, see <https://www.gnu.org/licenses/>.

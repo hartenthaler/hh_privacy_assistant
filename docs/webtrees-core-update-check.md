@@ -52,6 +52,10 @@ The trade-off is intentional and significant: both automatic checks and manual C
 administrators must monitor webtrees releases by another method. A native Core setting would provide the clearest
 long-term solution.
 
+An upstream feature request for three administrator-selectable modes—current behavior, complete suppression, and a
+version-only request without the additional query data—is tracked in
+[fisharebest/webtrees#5433](https://github.com/fisharebest/webtrees/issues/5433).
+
 ## What the assistant reports
 
 The module reads existing local site preferences and displays:
