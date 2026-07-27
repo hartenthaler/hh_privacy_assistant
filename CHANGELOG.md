@@ -2,7 +2,7 @@
 
 All notable changes to `hh_privacy_assistant` are documented in this file.
 
-## [2.2.6.2] - 2026-07-27
+## Next release
 
 ### Added
 
